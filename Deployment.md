@@ -39,6 +39,25 @@ npm run deploy:backend
 
 ---
 
+## 2. Cloudflare Pages Frontend Deployment (Web UI Setup)
+
+To deploy the React client frontend using the Cloudflare Dashboard Web UI:
+
+1. Log into your **[Cloudflare Dashboard](https://dash.cloudflare.com/)**.
+2. Navigate to **Workers & Pages** in the left sidebar -> Click **Create application** -> Select the **Pages** tab -> Click **Connect to Git**.
+3. Authenticate with GitHub and select your repository.
+4. In the **Build settings** configuration page, enter the following parameters:
+   * **Project name**: `enterprise-risk-assessment`
+   * **Production branch**: `main` (or your active branch)
+   * **Framework preset**: `Vite`
+   * **Build command**: `npm run build`
+   * **Build output directory**: `dist`
+   * **Root directory**: `frontend` (Change this to `frontend` to isolate client dependencies and bypass workspace caching bugs)
+5. *(Optional)* Click **Environment variables (advanced)** and add a variable `NODE_VERSION` set to `18` or `20` to ensure package building compatibility.
+6. Click **Save and Deploy**. Cloudflare Pages will build and deploy the React application on a free `.pages.dev` subdomain (e.g. `https://enterprise-risk-assessment.pages.dev`).
+
+---
+
 ## 3. Production Routing & Domain Configuration
 
 In production, to ensure the Cloudflare Pages frontend can communicate with the Cloudflare Worker API under the same domain without CORS blockers:

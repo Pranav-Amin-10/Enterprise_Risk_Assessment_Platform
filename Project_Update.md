@@ -133,6 +133,29 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Ensured developers/auditors understand how to route requests in production, keeping all documentation accurate and consistent with the codebase.
 
+## Update - 2026-07-05 (Pages Web UI Guidelines Added)
+
+### Files Modified
+* `Deployment.md`
+
+### Changes
+* Added Web UI setup instructions for Cloudflare Pages frontend deployment under section 2 of the deployment guide.
+* Highlighted using `Vite` as the Framework Preset and mapped build commands (`npm run build -w frontend`) and output directories (`frontend/dist`) to run correctly within the repository structure.
+
+### Reason
+* Provided clear step-by-step instructions for non-developer users deploying the client application via the Cloudflare web dashboard.
+
+## Update - 2026-07-05 (Cloudflare Pages Build Isolation)
+
+### Files Modified
+* `Deployment.md`
+
+### Changes
+* Changed the Cloudflare Pages deployment root directory to `frontend` (from `/`) and updated the build command to `npm run build` with output directory `dist`.
+
+### Reason
+* Resolved Cloudflare Pages build container crash related to copying/caching symlinks created by npm workspaces (`cp: cannot overwrite non-directory`). Isolating the frontend compile task to its subdirectory solves this bug out of the box.
+
 ---
 
 # 4. AI Memory Purpose
