@@ -5,6 +5,7 @@ import { auth } from '../services/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import { Shield, Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
 import { toast } from '../store/useToastStore';
+import { seedDemoStorage } from '../utils/mockApi';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -123,6 +124,39 @@ export const Login: React.FC = () => {
             {loading ? 'Verifying Credentials...' : 'Sign In'}
           </button>
         </form>
+
+        <div className="relative flex items-center justify-center my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-dark-border/40"></div>
+          </div>
+          <span className="relative px-3 bg-dark-card text-[9px] text-dark-muted font-bold tracking-wider uppercase">Or</span>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            localStorage.setItem('grc_demo_mode', 'true');
+            seedDemoStorage('Corporate GRC HQ');
+            
+            // Log in mock admin into Zustand store
+            const mockProfile = {
+              id: 'mock-user-123',
+              email: 'admin@platform.local',
+              name: 'SecOps Administrator',
+              role: 'super_admin' as const,
+              status: 'active' as const
+            };
+            useAuthStore.getState().setAuth(mockProfile, 'mock-demo-token');
+            useAuthStore.getState().setNeedsSetup(false);
+            
+            toast.success('Local browser demo simulation launched!');
+            navigate('/');
+          }}
+          className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-400 hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
+        >
+          <Shield className="h-4 w-4 text-brand-500 animate-pulse" />
+          Launch Browser Demo Mode (Zero Setup)
+        </button>
 
         <div className="text-center text-[11px] text-dark-muted leading-relaxed">
           Authorized personnel only. Access is monitored and logged in compliance with enterprise governance policies.

@@ -35,8 +35,15 @@ export const Navbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
-      toast.success('Logged out successfully');
+      const isDemo = localStorage.getItem('grc_demo_mode') === 'true';
+      if (isDemo) {
+        localStorage.removeItem('grc_demo_mode');
+        useAuthStore.getState().setAuth(null, null);
+        toast.success('Logged out from demo simulation');
+      } else {
+        await signOut(auth);
+        toast.success('Logged out successfully');
+      }
     } catch (err: any) {
       toast.error(`Logout failed: ${err.message}`);
     }
@@ -55,6 +62,11 @@ export const Navbar: React.FC = () => {
     <header className="h-16 border-b border-dark-border bg-dark-card/50 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-semibold text-dark-text tracking-wide">Enterprise Risk Assessment</h2>
+        {localStorage.getItem('grc_demo_mode') === 'true' && (
+          <span className="px-2.5 py-0.5 text-[9px] bg-brand-500/15 text-brand-400 border border-brand-500/30 rounded-full font-bold uppercase tracking-wider animate-pulse shrink-0">
+            Demo Mode (Browser Storage)
+          </span>
+        )}
         {user?.isUnregistered && (
           <span className="px-2 py-0.5 text-xs bg-amber-500/20 text-amber-300 border border-amber-800/40 rounded-full font-medium">
             Pending Role Sync
