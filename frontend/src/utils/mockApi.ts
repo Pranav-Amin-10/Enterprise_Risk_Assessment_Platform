@@ -31,12 +31,17 @@ const saveTable = (key: string, data: any[]) => {
 };
 
 // Seed initial database state for Option A Demo
-export const seedDemoStorage = (companyName: string = 'Enterprise HQ') => {
+export const seedDemoStorage = (
+  companyName: string = 'Enterprise HQ',
+  adminEmail: string = 'admin@platform.local',
+  adminName: string = 'SecOps Administrator',
+  locationName: string = 'HQ Node'
+) => {
   const timestamp = new Date();
   
   // 1. Seed Org nodes
   const orgs = [
-    { id: 'org-root', name: companyName, type: 'company', parentId: null, location: 'HQ Node' },
+    { id: 'org-root', name: companyName, type: 'company', parentId: null, location: locationName },
     { id: 'org-infosec', name: 'Information Security', type: 'department', parentId: 'org-root', location: 'HQ' },
     { id: 'org-infra', name: 'Cloud Infrastructure', type: 'department', parentId: 'org-root', location: 'AWS Cloud' },
     { id: 'org-hr', name: 'Human Resources', type: 'department', parentId: 'org-root', location: 'HQ' },
@@ -45,7 +50,7 @@ export const seedDemoStorage = (companyName: string = 'Enterprise HQ') => {
 
   // 2. Seed default users directory
   const users = [
-    { id: 'mock-user-123', email: 'admin@platform.local', name: 'SecOps Administrator', role: 'super_admin', status: 'active' },
+    { id: 'mock-user-123', email: adminEmail, name: adminName, role: 'super_admin', status: 'active' },
     { id: 'mock-user-456', email: 'ciso@company.com', name: 'Chief Information Security Officer', role: 'ciso', status: 'active' },
     { id: 'mock-user-789', email: 'manager@company.com', name: 'Risk Assessment Manager', role: 'risk_manager', status: 'active' },
   ];
@@ -130,9 +135,9 @@ export const seedDemoStorage = (companyName: string = 'Enterprise HQ') => {
 
   // 7. Seed default Audit logs
   const logs = [
-    { id: 'l-01', userEmail: 'admin@platform.local', action: 'BOOTSTRAP', details: 'GRC Local Simulation bootstrapped successfully.', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
-    { id: 'l-02', userEmail: 'admin@platform.local', action: 'ASSET_CREATE', details: 'Created asset: AST-101 (Oracle Production DB)', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
-    { id: 'l-03', userEmail: 'admin@platform.local', action: 'RISK_CREATE', details: 'Created risk: RSK-101 (Database Exposed on Public Port)', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
+    { id: 'l-01', userEmail: adminEmail, action: 'BOOTSTRAP', details: 'GRC Local Simulation bootstrapped successfully.', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
+    { id: 'l-02', userEmail: adminEmail, action: 'ASSET_CREATE', details: 'Created asset: AST-101 (Oracle Production DB)', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
+    { id: 'l-03', userEmail: adminEmail, action: 'RISK_CREATE', details: 'Created risk: RSK-101 (Database Exposed on Public Port)', ipAddress: '127.0.0.1', createdAt: timestamp.toISOString() },
   ];
   saveTable('logs', logs);
 
@@ -172,13 +177,15 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
 
   // --- AUTH ME ROUTE ---
   if (path.endsWith('/api/auth/me')) {
-    return new Response(JSON.stringify({
+    const users = getTable('users');
+    const superAdmin = users.find(u => u.role === 'super_admin') || {
       id: 'mock-user-123',
       email: 'admin@platform.local',
       name: 'SecOps Administrator',
       role: 'super_admin',
       status: 'active'
-    }), { status: 200 });
+    };
+    return new Response(JSON.stringify(superAdmin), { status: 200 });
   }
 
   // --- ORGANIZATION NODES ---
