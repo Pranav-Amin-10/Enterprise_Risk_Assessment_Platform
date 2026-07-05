@@ -58,3 +58,12 @@ The platform stores all metadata and relation maps inside a Cloudflare D1 SQLite
 * `details` (`TEXT`): Raw JSON string serialization.
 * `ipAddress` (`TEXT`): Remote client IP recorded during Hono interception.
 * `createdAt` (`INTEGER`): Epoch timestamp. *No update/delete endpoints exist for this table, making it immutable.*
+
+### `evidence`
+* `id` (`TEXT`): UUID primary key.
+* `name` (`TEXT`): Original uploaded filename.
+* `filePath` (`TEXT`): Reference path token.
+* `fileData` (`TEXT`): Base64 encoded file binary contents.
+* `fileSize` (`INTEGER`): File size in bytes.
+* `mimeType` (`TEXT`): File content type (e.g. `application/pdf`).
+* `riskId` / `assetId` / `treatmentId` (`TEXT`): Relation reference foreign keys.

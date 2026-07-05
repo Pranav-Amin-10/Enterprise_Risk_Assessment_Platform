@@ -10,7 +10,7 @@ An enterprise-grade Governance, Risk, and Compliance (GRC) platform designed for
 * **Risk Register & Calculations**: Auto-calculates Inherent and Residual risk scores (1-25) using Likelihood (1-5) and Impact (1-5) matrices. Supports 3x3, 5x5, and 10x10 grids.
 * **Interactive Heatmaps**: Built-in Apache ECharts heatmaps displaying risk counts by Likelihood/Impact intersections.
 * **Auditor-Ready Reporting**: Dynamic, client-side generation of styled corporate PDFs (via `jspdf` + `jspdf-autotable`) and styled Excel spreadsheets (via `exceljs` + `file-saver`) completely free of cost.
-* **Evidence Attachments**: Real-time upload and download of audit evidence documents (PDFs, images) routed directly to Cloudflare R2 object storage.
+* **Evidence Attachments**: Real-time upload and download of audit evidence documents (PDFs, images) routed directly to Cloudflare D1 database as Base64 strings, ensuring ₹0 operational cost without card requirements.
 * **Immutable Audit History**: Append-only compliance ledger recording every CRUD operation, role modification, or file upload event.
 
 ---

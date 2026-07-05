@@ -9,9 +9,6 @@ FIREBASE_PROJECT_ID = "enterprise-risk-assessme-96510"
 [[d1_databases]]
 binding = "DB"
 database_name = "enterprise-risk-assessment-db"
-database_id = "enterprise-risk-assessment-db-id"
+database_id = "df0862eb-024a-422c-8021-f176ba08c371"
 
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "enterprise-risk-assessment-evidence"
-preview_bucket_name = "enterprise-risk-assessment-evidence-preview"
+

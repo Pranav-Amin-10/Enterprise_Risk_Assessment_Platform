@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c20ba6c0-1b66-4805-90c1-b9b94c8234da",
+  "id": "3a45057a-2fe3-48f5-8fb5-3e9e646b8a04",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "assets": {
@@ -278,6 +278,13 @@
         },
         "file_path": {
           "name": "file_path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "file_data": {
+          "name": "file_data",
           "type": "text",
           "primaryKey": false,
           "notNull": true,

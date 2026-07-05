@@ -25,8 +25,8 @@ When a user interacts with the dashboard, requests flow through the following la
    │      ├─► [ User Claim Resolver ] (Fetches user role from D1 database)
    │      └─► [ Audit Log Middleware ] (Appends immutable records to D1)
    │
-   ├─► [ SQLite Database Layer (D1) ] (Transactional updates, Joins)
-   └─► [ Blob Storage Layer (R2) ] (Read/write binary uploads)
+   ├─► [ SQLite Database Layer (D1) ] (Transactional updates, Joins, Base64 Document Storage)
+   └─► [ Google JWKS Keys ] (Authentication validation signatures)
 ```
 
 ---
@@ -44,6 +44,6 @@ When a user interacts with the dashboard, requests flow through the following la
 * **JWT Authenticator**: Decodes JWT headers, selects the matching public certificate using the `kid` claim, validates signature, issuer (`https://securetoken.google.com/<projectId>`), and audience (`<projectId>`).
 * **Registration Claiming Middleware**: Evaluates if the authenticated Firebase user profile matches a pre-provisioned D1 record by email. If matched, it overwrites the placeholder ID with the Firebase UID.
 
-### Data & Object Storage Layer (Cloudflare D1 & R2)
+### Data Storage Layer (Cloudflare D1)
 * **Cloudflare D1**: SQL database running on SQLite. Migrated via Drizzle ORM. Standard relational constructs are enforced (foreign key constraints, cascade deletes, indexing email fields).
-* **Cloudflare R2**: S3-compatible, edge-replicated object storage with zero egress fees, storing PDF evidence and compliance documentation. Files are named utilizing unique UUID hashes to prevent path collision.
+* **Document Base64 Store**: Stored directly inside the D1 `evidence` table as Base64 strings, ensuring ₹0 operational cost and zero external storage configurations.

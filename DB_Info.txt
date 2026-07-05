@@ -1,0 +1,20 @@
+Microsoft Windows [Version 10.0.26200.8655]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\Projects\Enterprise_Risk_Assessment_Platform>npx wrangler d1 create enterprise-risk-assessment-db
+
+ ⛅️ wrangler 3.114.17
+---------------------
+
+✅ Successfully created DB 'enterprise-risk-assessment-db' in region APAC
+Created your new D1 database.
+
+{
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "enterprise-risk-assessment-db",
+      "database_id": "df0862eb-024a-422c-8021-f176ba08c371"
+    }
+  ]
+}

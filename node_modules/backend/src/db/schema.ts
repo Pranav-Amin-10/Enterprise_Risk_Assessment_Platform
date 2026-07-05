@@ -141,11 +141,12 @@ export const treatments = sqliteTable('treatments', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
 });
 
-// Attached Files (Evidence store metadata connected to R2 key)
+// Attached Files (Evidence store metadata and data stored in D1)
 export const evidence = sqliteTable('evidence', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
-  filePath: text('file_path').notNull(), // R2 path/key
+  filePath: text('file_path').notNull(), // kept as reference path name
+  fileData: text('file_data').notNull(), // Base64 encoded file data
   fileSize: integer('file_size').notNull(),
   mimeType: text('mime_type').notNull(),
   uploadedBy: text('uploaded_by').references(() => users.id, { onDelete: 'set null' }),

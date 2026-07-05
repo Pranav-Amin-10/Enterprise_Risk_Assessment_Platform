@@ -82,6 +82,57 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Initializing the entire codebase to build a production-quality, enterprise-grade GRC platform.
 
+## Update - 2026-07-05 (D1 Integration Update)
+
+### File Modified
+* `backend/wrangler.toml`
+
+### Changes
+* Replaced the placeholder `database_id` under the `[[d1_databases]]` binding block with the production database UUID `df0862eb-024a-422c-8021-f176ba08c371`.
+
+### Reason
+* Updated wrangler configuration with the D1 database instance created via Wrangler CLI to enable successful local and remote database operations.
+
+## Update - 2026-07-05 (D1 Evidence Storage Pivot)
+
+### Files Modified
+* `backend/src/db/schema.ts`
+* `backend/src/routes/evidence.ts`
+* `backend/wrangler.toml`
+
+### Changes
+* Shifted file evidence storage from Cloudflare R2 bucket to Cloudflare D1 database.
+* Added `file_data` TEXT column (Base64 encoded file storage) in `evidence` table.
+* Rewrote `/api/evidence/upload` and `/api/evidence/:id/download` route handlers in Hono to encode/decode file buffers directly into/from D1.
+* Removed `[[r2_buckets]]` configurations from `backend/wrangler.toml` to avoid billing card verification blockers.
+* Re-generated clean database migrations folder `backend/migrations/0000_tiresome_quicksilver.sql`.
+
+### Reason
+* Resolved deployment blockers for accounts without payment cards by eliminating Cloudflare R2 bucket requirements, keeping the entire GRC system 100% free under the permanent free tiers of D1 and Pages.
+
+## Update - 2026-07-05 (Root Scripts Update)
+
+### Files Modified
+* `package.json`
+
+### Changes
+* Added `db:migrate:prod` and `deploy:backend` npm scripts to the root workspace configuration.
+
+### Reason
+* Enables developers and users to run production D1 migrations and build/deploy Cloudflare backend workers directly from the workspace root.
+
+## Update - 2026-07-05 (Deployment Routing Manual Update)
+
+### Files Modified
+* `Deployment.md`
+
+### Changes
+* Updated deployment manual to document edge-routing instructions linking the Cloudflare Pages frontend and Hono Worker backend under a single custom domain (using Workers Routes), avoiding CORS concerns.
+* Documented confirmation that the `FIREBASE_PROJECT_ID` variable is already bound correctly and requires no secret commands.
+
+### Reason
+* Ensured developers/auditors understand how to route requests in production, keeping all documentation accurate and consistent with the codebase.
+
 ---
 
 # 4. AI Memory Purpose

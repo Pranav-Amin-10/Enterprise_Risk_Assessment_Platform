@@ -37,6 +37,7 @@ CREATE TABLE `evidence` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`file_path` text NOT NULL,
+	`file_data` text NOT NULL,
 	`file_size` integer NOT NULL,
 	`mime_type` text NOT NULL,
 	`uploaded_by` text,

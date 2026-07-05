@@ -36,24 +36,23 @@ evidenceRouter.post('/upload', requireRole(['super_admin', 'ciso', 'risk_manager
     const cleanFileName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
     const objectKey = `evidence/${id}_${cleanFileName}`;
 
-    // Upload to Cloudflare R2 Bucket
+    // Read file binary array buffer and encode to Base64 (safe for SQLite TEXT column)
     const fileBuffer = await file.arrayBuffer();
-    await c.env.BUCKET.put(objectKey, fileBuffer, {
-      httpMetadata: {
-        contentType: file.type,
-        contentDisposition: `attachment; filename="${cleanFileName}"`,
-      },
-      customMetadata: {
-        uploadedBy: user.email,
-        originalName: file.name,
-      }
-    });
+    const uint8Array = new Uint8Array(fileBuffer);
+    
+    let binary = '';
+    const len = uint8Array.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(uint8Array[i]);
+    }
+    const base64Data = btoa(binary);
 
-    // Write file metadata to D1 DB
+    // Write file metadata and base64 data to D1 DB
     await db.insert(evidence).values({
       id,
       name: file.name,
       filePath: objectKey,
+      fileData: base64Data,
       fileSize: file.size,
       mimeType: file.type,
       uploadedBy: user.id,
@@ -85,14 +84,16 @@ evidenceRouter.get('/:id/download', async (c) => {
 
   try {
     const meta = await db.select().from(evidence).where(eq(evidence.id, id)).get();
-    if (!meta) {
+    if (!meta || !meta.fileData) {
       return c.json({ error: 'Evidence record not found' }, 404);
     }
 
-    // Fetch from R2 Bucket
-    const fileObject = await c.env.BUCKET.get(meta.filePath);
-    if (!fileObject) {
-      return c.json({ error: 'File data not found in object storage' }, 404);
+    // Decode Base64 string back to binary Uint8Array
+    const binaryString = atob(meta.fileData);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
     }
 
     const fileHeaders = new Headers();
@@ -100,7 +101,7 @@ evidenceRouter.get('/:id/download', async (c) => {
     fileHeaders.set('Content-Disposition', `attachment; filename="${meta.name}"`);
     fileHeaders.set('Content-Length', meta.fileSize.toString());
 
-    return c.body(fileObject.body, 200, fileHeaders);
+    return c.body(bytes, 200, fileHeaders);
 
   } catch (err: any) {
     console.error('File download error:', err);
@@ -116,7 +117,19 @@ evidenceRouter.get('/linked', async (c) => {
   const treatmentId = c.req.query('treatmentId');
 
   try {
-    let query = db.select().from(evidence);
+    let query = db.select({
+      id: evidence.id,
+      name: evidence.name,
+      filePath: evidence.filePath,
+      fileSize: evidence.fileSize,
+      mimeType: evidence.mimeType,
+      uploadedBy: evidence.uploadedBy,
+      riskId: evidence.riskId,
+      assetId: evidence.assetId,
+      treatmentId: evidence.treatmentId,
+      createdAt: evidence.createdAt,
+    }).from(evidence); // Project columns omitting the heavy fileData string for listing speed
+    
     let items = [];
 
     if (riskId) {
@@ -146,10 +159,7 @@ evidenceRouter.delete('/:id', requireRole(['super_admin', 'ciso', 'risk_manager'
       return c.json({ error: 'Evidence record not found' }, 404);
     }
 
-    // Delete from R2
-    await c.env.BUCKET.delete(meta.filePath);
-
-    // Delete from D1 DB
+    // Delete from D1 DB (automatically deletes data column)
     await db.delete(evidence).where(eq(evidence.id, id));
 
     await logAuditAction(c, 'FILE_DELETE', { id, fileName: meta.name });
