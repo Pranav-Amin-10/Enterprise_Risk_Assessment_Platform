@@ -244,6 +244,28 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Option A implementation: Created a friction-free, zero-config browser demonstration sandbox that runs immediately in the browser, while maintaining 100% of the production-grade Worker, R2, and D1 database code in the repository for developer review.
 
+## Update - 2026-07-05 (UI Polishing & OTP MFA Verification)
+
+### Files Modified
+* `frontend/src/App.tsx`
+* `frontend/src/components/layout/Navbar.tsx`
+* `frontend/src/index.css`
+* `frontend/src/main.tsx`
+* `frontend/src/pages/Login.tsx`
+* `frontend/src/pages/SetupWizard.tsx`
+* `frontend/src/utils/mockApi.ts`
+
+### Changes
+* Fixed drop-down menu illegible text styling in dark theme by adding global CSS selectors for `select option` element backgrounds.
+* Added `color-scheme` controls and webkit filters to force date-pickers and native calendar overlays to match the active theme.
+* Resolved the theme toggle reactivity bug by adding a theme-sync side-effect `useEffect` inside `App.tsx` matching `useThemeStore` states.
+* Fixed the Asset Inventory page edit operation bug by implementing `PUT` API route simulation handlers inside `mockApi.ts`.
+* Renamed all UI and state instances of **Demo Mode** to **Admin Mode**.
+* Programmed a multi-factor authentication (MFA) validation flow for Admin Mode access: clicking "Launch Admin Mode" generates a 6-digit OTP, simulates a secure mail dispatch via a toast notification, and prompts verification inside a modal input window before granting platform access.
+
+### Reason
+* Resolved visual styling bugs on drop-downs and date-pickers, fixed asset edit routes, and fulfilled user security requirements by implementing a verifiable Admin Mode sandbox with simulated mail verification.
+
 ---
 
 # 4. AI Memory Purpose
