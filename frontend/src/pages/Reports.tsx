@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
 import { exportToPDF, exportToExcel, exportToCSV } from '../utils/exporters';
-import { FileText, FileSpreadsheet, Download, ShieldAlert, Library, History, Calendar, CheckSquare } from 'lucide-react';
+import { FileText, FileSpreadsheet, Download, ShieldAlert, Library, History, CheckSquare } from 'lucide-react';
 import { toast } from '../store/useToastStore';
 
 export const Reports: React.FC = () => {

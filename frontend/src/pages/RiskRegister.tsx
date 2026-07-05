@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Edit2, Trash2, ShieldAlert, AlertTriangle, Eye, FileText, Upload, Calendar, X, ShieldAlert as AlertIcon } from 'lucide-react';
+import { Plus, Edit2, Trash2, ShieldAlert, AlertTriangle, Eye, FileText, Upload, Calendar, X, Search } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';

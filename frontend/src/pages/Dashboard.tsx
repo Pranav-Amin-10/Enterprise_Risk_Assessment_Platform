@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
 import ReactECharts from 'echarts-for-react';
-import { Shield, ShieldAlert, FileWarning, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { ShieldAlert, FileWarning, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { DashboardSkeleton } from '../components/ui/Skeleton';
 
 export const Dashboard: React.FC = () => {
@@ -34,7 +34,7 @@ export const Dashboard: React.FC = () => {
     );
   }
 
-  const { summary, heatmaps, statusDistribution, risksByDepartment, risksByAssetType, topRisks } = stats;
+  const { summary, heatmaps, risksByDepartment, risksByAssetType, topRisks } = stats;
 
   // Stat Cards Config
   const statCards = [

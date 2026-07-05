@@ -8,7 +8,7 @@ import { Bell, Sun, Moon, LogOut, ShieldAlert, Check } from 'lucide-react';
 import { toast } from '../../store/useToastStore';
 
 export const Navbar: React.FC = () => {
-  const { user, clearAuth } = useAuthStore() as any;
+  const { user } = useAuthStore() as any;
   const { theme, toggleTheme } = useThemeStore();
   const { notifications, unreadCount, fetchNotifications, markAsRead, markAllAsRead } = useNotificationStore();
 

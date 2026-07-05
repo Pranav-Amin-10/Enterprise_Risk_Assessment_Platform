@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { History, ShieldAlert, Monitor, Calendar, User } from 'lucide-react';
+import { Monitor, Calendar, User } from 'lucide-react';
 import { TableSkeleton } from '../components/ui/Skeleton';
 
 export const AuditLogs: React.FC = () => {

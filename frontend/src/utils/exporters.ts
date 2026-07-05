@@ -177,7 +177,7 @@ export const exportToPDF = (config: PDFReportConfig, filename: string) => {
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(148, 163, 184); // Slate-400
       
-      const str = 'Page ' + doc.internal.getNumberOfPages();
+      const str = 'Page ' + doc.getNumberOfPages();
       doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 10);
       doc.text('Enterprise Risk Assessment Platform', 140, doc.internal.pageSize.height - 10);
     }

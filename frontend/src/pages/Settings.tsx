@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Edit2, Trash2, Shield, Users, Building, Tag, X, UserX, UserCheck } from 'lucide-react';
+import { Plus, Edit2, Trash2, Users, Building, UserX, UserCheck } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';
@@ -18,7 +18,7 @@ export const Settings: React.FC = () => {
   const [isOrgModalOpen, setIsOrgModalOpen] = useState(false);
   
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
-  const [selectedOrg, setSelectedOrg] = useState<any | null>(null);
+
 
   // User Form States
   const [userEmail, setUserEmail] = useState('');
@@ -242,7 +242,6 @@ export const Settings: React.FC = () => {
 
   // --- ORG MODAL HANDLERS ---
   const openCreateOrgModal = () => {
-    setSelectedOrg(null);
     setOrgName('');
     setOrgType('department');
     setOrgParentId('');

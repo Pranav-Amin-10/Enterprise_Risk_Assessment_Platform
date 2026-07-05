@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Trash2, Shield, Search, Skull, BookOpen, Lock } from 'lucide-react';
+import { Plus, Trash2, Search, Skull } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';

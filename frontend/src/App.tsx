@@ -4,7 +4,6 @@ import { useAuthStore } from './store/useAuthStore';
 import { Sidebar } from './components/layout/Sidebar';
 import { Navbar } from './components/layout/Navbar';
 import { ToastContainer } from './components/ui/Toast';
-import { Skeleton } from './components/ui/Skeleton';
 
 // Pages
 import { Dashboard } from './pages/Dashboard';
