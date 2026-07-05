@@ -1,0 +1,17 @@
+name = "enterprise-risk-assessment-api"
+main = "src/index.ts"
+compatibility_date = "2024-05-29"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+FIREBASE_PROJECT_ID = "enterprise-risk-assessme-96510"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "enterprise-risk-assessment-db"
+database_id = "enterprise-risk-assessment-db-id"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "enterprise-risk-assessment-evidence"
+preview_bucket_name = "enterprise-risk-assessment-evidence-preview"
