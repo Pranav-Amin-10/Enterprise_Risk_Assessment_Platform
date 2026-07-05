@@ -266,6 +266,22 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Resolved visual styling bugs on drop-downs and date-pickers, fixed asset edit routes, and fulfilled user security requirements by implementing a verifiable Admin Mode sandbox with simulated mail verification.
 
+## Update - 2026-07-05 (Firebase Auth Admin Mode Setup)
+
+### Files Modified
+* `frontend/src/pages/Login.tsx`
+* `frontend/src/pages/SetupWizard.tsx`
+* `frontend/src/utils/mockApi.ts`
+
+### Changes
+* Upgraded `seedDemoStorage` in `mockApi.ts` to support dynamic admin email, admin name, company name, and location seeding.
+* Configured `GET /api/auth/me` simulation to dynamically retrieve the custom registered administrator from `localStorage`.
+* Programmed a first-time setup wizard modal for Admin Mode inside `Login.tsx` and `SetupWizard.tsx`. If Admin Mode is not yet bootstrapped, the launch button opens a setup form requesting custom details and registers the new administrator account directly in **Firebase Auth**.
+* Standardized subsequent logins to retrieve the user's custom email and trigger OTP challenge mail simulation targeting their actual registered address.
+
+### Reason
+* Addressed user request to allow custom admin data (such as emails) to be entered during first-time setup while integrating **Firebase Auth** for registration, combining secure identity management with local storage simulation.
+
 ---
 
 # 4. AI Memory Purpose
