@@ -156,6 +156,31 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Resolved Cloudflare Pages build container crash related to copying/caching symlinks created by npm workspaces (`cp: cannot overwrite non-directory`). Isolating the frontend compile task to its subdirectory solves this bug out of the box.
 
+## Update - 2026-07-05 (Typescript Compilation & Cleanups)
+
+### Files Modified
+* `frontend/src/App.tsx`
+* `frontend/src/components/layout/Navbar.tsx`
+* `frontend/src/pages/AssetInventory.tsx`
+* `frontend/src/pages/AuditLogs.tsx`
+* `frontend/src/pages/Dashboard.tsx`
+* `frontend/src/pages/Reports.tsx`
+* `frontend/src/pages/RiskRegister.tsx`
+* `frontend/src/pages/RiskTreatment.tsx`
+* `frontend/src/pages/Settings.tsx`
+* `frontend/src/pages/ThreatLibrary.tsx`
+* `frontend/src/pages/VulnerabilityLibrary.tsx`
+* `frontend/src/utils/exporters.ts`
+
+### Changes
+* Fixed the `doc.internal.getNumberOfPages()` compiler error in `exporters.ts` by using the correct public method `doc.getNumberOfPages()`.
+* Resolved the undefined `Search` reference in `RiskRegister.tsx` by importing it from `lucide-react`.
+* Removed all unused imports and variables (`Skeleton`, `clearAuth`, `selectedOrg`, icons, etc.) across frontend modules to comply with the project's strict `noUnusedLocals` and `noUnusedParameters` typescript configs.
+* Successfully built and bundled the production frontend package locally.
+
+### Reason
+* Resolved typescript build compilation failures (exited with code 2) in the Cloudflare Pages container environment, ensuring successful automated static builds.
+
 ## Update - 2026-07-05 (Build Cache Troubleshooting Added)
 
 ### Files Modified
