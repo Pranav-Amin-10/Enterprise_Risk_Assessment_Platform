@@ -225,6 +225,25 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Resolved build compilation errors related to React 19 typings on ECharts and Tailwind v4 PostCSS plugin relocation, ensuring clean compiles on Cloudflare.
 
+## Update - 2026-07-05 (Hybrid Demo Fallback Mode)
+
+### Files Modified
+* `frontend/src/components/layout/Navbar.tsx`
+* `frontend/src/main.tsx`
+* `frontend/src/pages/Login.tsx`
+* `frontend/src/pages/SetupWizard.tsx`
+* `frontend/src/utils/mockApi.ts` [NEW]
+
+### Changes
+* Coded a browser-side backend simulator in `mockApi.ts` that acts as a mock API router storing data in `localStorage`.
+* Configured the global fetch interceptor in `main.tsx` to automatically redirect requests to the mock simulator if `grc_demo_mode` is enabled or if the Worker API setup check fails (preventing auth deadlocks).
+* Added a styled **"Launch Browser Demo Mode (Zero Setup)"** button to both the Login and Setup Wizard pages to bypass Firebase and Cloudflare connection requirements instantly.
+* Added a `Demo Mode (Browser Storage)` blinking indicator in the Navbar header.
+* Modified the Sign Out handler to clear the demo mode states and reset Zustand auth stores dynamically.
+
+### Reason
+* Option A implementation: Created a friction-free, zero-config browser demonstration sandbox that runs immediately in the browser, while maintaining 100% of the production-grade Worker, R2, and D1 database code in the repository for developer review.
+
 ---
 
 # 4. AI Memory Purpose
