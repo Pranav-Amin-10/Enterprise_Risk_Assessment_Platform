@@ -156,6 +156,17 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Resolved Cloudflare Pages build container crash related to copying/caching symlinks created by npm workspaces (`cp: cannot overwrite non-directory`). Isolating the frontend compile task to its subdirectory solves this bug out of the box.
 
+## Update - 2026-07-05 (Build Cache Troubleshooting Added)
+
+### Files Modified
+* `Deployment.md`
+
+### Changes
+* Documented build error 126 (Permission Denied for `tsc`) troubleshooting steps, explaining how to trigger "Clear cache and deploy" from the Cloudflare Pages deployment details dropdown.
+
+### Reason
+* Enables users to bypass build container caching conflicts when switching root directory configurations in Cloudflare.
+
 ---
 
 # 4. AI Memory Purpose

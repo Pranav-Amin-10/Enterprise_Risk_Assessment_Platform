@@ -1,0 +1,28 @@
+# Dependency directories
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+**/dist/
+.wrangler/
+**/.wrangler/
+.turbo/
+.cache/
+
+# Local env vars & secrets
+.env
+.env.local
+.env.*.local
+.dev.vars
+
+# IDEs and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

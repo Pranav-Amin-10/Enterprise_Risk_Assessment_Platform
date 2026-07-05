@@ -56,6 +56,10 @@ To deploy the React client frontend using the Cloudflare Dashboard Web UI:
 5. *(Optional)* Click **Environment variables (advanced)** and add a variable `NODE_VERSION` set to `18` or `20` to ensure package building compatibility.
 6. Click **Save and Deploy**. Cloudflare Pages will build and deploy the React application on a free `.pages.dev` subdomain (e.g. `https://enterprise-risk-assessment.pages.dev`).
 
+> [!TIP]
+> **Troubleshooting Build Error 126 (Permission Denied for `tsc`)**:
+> If you previously attempted to deploy with the root directory set to `/` and then changed it to `frontend`, Cloudflare's build cache may restore corrupt `node_modules` symlinks from the previous attempt. To fix this, click the **three dots** next to the deploy button in the Cloudflare Pages dashboard and select **Retry deployment** -> **Clear cache and deploy**. This forces a fresh, clean install.
+
 ---
 
 ## 3. Production Routing & Domain Configuration
