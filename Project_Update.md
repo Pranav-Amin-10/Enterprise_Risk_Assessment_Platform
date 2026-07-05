@@ -192,6 +192,26 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Enables users to bypass build container caching conflicts when switching root directory configurations in Cloudflare.
 
+## Update - 2026-07-05 (Package Upgrades & CORS Interceptor)
+
+### Files Modified
+* `backend/package.json`
+* `backend/src/index.ts`
+* `frontend/package.json`
+* `frontend/src/main.tsx`
+* `frontend/src/vite-env.d.ts` [NEW]
+* `package-lock.json`
+
+### Changes
+* Upgraded backend core libraries (`hono`, `drizzle-orm`, `drizzle-kit`, `wrangler`, `vitest`, `typescript`, `zod`) to latest stable major versions.
+* Upgraded frontend core libraries (`react`, `react-dom`, `react-router-dom`, `@tanstack/react-query`, `zustand`, `lucide-react`, `vite`, `typescript`, `vitest`) to latest stable major versions.
+* Overrode the global browser `window.fetch` interceptor in `frontend/src/main.tsx` to dynamically prefix all `/api` routes with the environment variable `VITE_API_URL` when defined in production.
+* Created `frontend/src/vite-env.d.ts` to declare types for Vite client assets and environment parameters.
+* Configured Hono `cors` middleware in `backend/src/index.ts` to dynamically echo request origins to satisfy CORS credentials checks in cross-origin environments.
+
+### Reason
+* Addressed user request to update outdated packages to latest. Fixed issues where the React app on Cloudflare Pages couldn't connect to the Cloudflare Worker API. It was previously throwing 404 or CORS credential errors, which hid the First-Time Setup Wizard.
+
 ---
 
 # 4. AI Memory Purpose
