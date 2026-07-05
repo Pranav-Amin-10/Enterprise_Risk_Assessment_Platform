@@ -212,6 +212,19 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Addressed user request to update outdated packages to latest. Fixed issues where the React app on Cloudflare Pages couldn't connect to the Cloudflare Worker API. It was previously throwing 404 or CORS credential errors, which hid the First-Time Setup Wizard.
 
+## Update - 2026-07-05 (React & Tailwind Version Pinning)
+
+### Files Modified
+* `frontend/package.json`
+* `package-lock.json`
+
+### Changes
+* Pinned React client to `react@^18.3.1` and `@types/react@^18.3.3` to maintain constructor signature compatibility with third-party visual wrappers like `echarts-for-react`.
+* Pinned Tailwind CSS to `tailwindcss@^3.4.17` to preserve the PostCSS configuration pipeline and avoid breaking v4 migrations.
+
+### Reason
+* Resolved build compilation errors related to React 19 typings on ECharts and Tailwind v4 PostCSS plugin relocation, ensuring clean compiles on Cloudflare.
+
 ---
 
 # 4. AI Memory Purpose
