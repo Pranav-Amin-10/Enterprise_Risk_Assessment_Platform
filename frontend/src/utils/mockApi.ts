@@ -253,6 +253,18 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
       saveTable('assets', assets);
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     }
+    if (method === 'PUT') {
+      const assets = getTable('assets');
+      let asset;
+      assets.forEach((a, i) => {
+        if (a.id === id) {
+          assets[i] = { ...a, ...body };
+          asset = assets[i];
+        }
+      });
+      saveTable('assets', assets);
+      return new Response(JSON.stringify(asset), { status: 200 });
+    }
   }
 
   // --- THREATS & VULNERABILITIES LIBRARY ---
@@ -321,6 +333,21 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
       saveTable('risks', risks);
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     }
+    if (method === 'PUT') {
+      const risks = getTable('risks');
+      let risk;
+      const inherentScore = body.inherentImpact * body.inherentLikelihood;
+      const residualScore = body.residualImpact * body.residualLikelihood;
+
+      risks.forEach((r, i) => {
+        if (r.id === id) {
+          risks[i] = { ...r, ...body, inherentScore, residualScore };
+          risk = risks[i];
+        }
+      });
+      saveTable('risks', risks);
+      return new Response(JSON.stringify(risk), { status: 200 });
+    }
   }
 
   // --- TREATMENTS PLAN ---
@@ -357,6 +384,21 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
       }
       saveTable('treatments', treatments);
       return new Response(JSON.stringify(tr), { status: body.id ? 200 : 201 });
+    }
+  }
+  if (path.includes('/api/treatments/')) {
+    const id = path.split('/').pop();
+    if (method === 'PUT') {
+      const treatments = getTable('treatments');
+      let tr;
+      treatments.forEach((t, i) => {
+        if (t.id === id) {
+          treatments[i] = { ...t, ...body, updatedAt: new Date() };
+          tr = treatments[i];
+        }
+      });
+      saveTable('treatments', treatments);
+      return new Response(JSON.stringify(tr), { status: 200 });
     }
   }
 

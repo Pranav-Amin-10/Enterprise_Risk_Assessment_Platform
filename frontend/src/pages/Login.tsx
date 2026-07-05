@@ -6,6 +6,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import { Shield, Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
 import { toast } from '../store/useToastStore';
 import { seedDemoStorage } from '../utils/mockApi';
+import { Modal } from '../components/ui/Modal';
 
 export const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -13,6 +14,9 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otpInput, setOtpInput] = useState('');
+  const [generatedOtp, setGeneratedOtp] = useState('');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,27 +139,16 @@ export const Login: React.FC = () => {
         <button
           type="button"
           onClick={() => {
-            localStorage.setItem('grc_demo_mode', 'true');
-            seedDemoStorage('Corporate GRC HQ');
-            
-            // Log in mock admin into Zustand store
-            const mockProfile = {
-              id: 'mock-user-123',
-              email: 'admin@platform.local',
-              name: 'SecOps Administrator',
-              role: 'super_admin' as const,
-              status: 'active' as const
-            };
-            useAuthStore.getState().setAuth(mockProfile, 'mock-demo-token');
-            useAuthStore.getState().setNeedsSetup(false);
-            
-            toast.success('Local browser demo simulation launched!');
-            navigate('/');
+            const code = String(Math.floor(100000 + Math.random() * 900000));
+            setGeneratedOtp(code);
+            setOtpInput('');
+            setShowOtpModal(true);
+            toast.success(`🔑 [Secure Mail Simulator] Verification Passcode sent to admin@platform.local: ${code}`);
           }}
           className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-400 hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
         >
           <Shield className="h-4 w-4 text-brand-500 animate-pulse" />
-          Launch Browser Demo Mode (Zero Setup)
+          Launch Admin Mode (Verifiable Access)
         </button>
 
         <div className="text-center text-[11px] text-dark-muted leading-relaxed">
@@ -163,6 +156,62 @@ export const Login: React.FC = () => {
         </div>
 
       </div>
+
+      {/* OTP Passcode Challenge Modal */}
+      <Modal
+        isOpen={showOtpModal}
+        onClose={() => setShowOtpModal(false)}
+        title="Admin Mode Verification"
+        size="sm"
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-dark-muted leading-relaxed">
+            MFA Identity Verification: A One-Time Passcode (OTP) was generated and dispatched to the administrator inbox for <strong>admin@platform.local</strong>.
+          </p>
+          <div className="bg-[#232d45]/20 border border-dark-border rounded-lg p-3 text-[11px] text-brand-400 font-semibold flex items-center justify-between">
+            <span>Security Challenge Active</span>
+            <span className="h-2 w-2 rounded-full bg-brand-500 animate-ping" />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-dark-text">6-Digit Passcode</label>
+            <input
+              type="text"
+              maxLength={6}
+              placeholder="e.g. 123456"
+              value={otpInput}
+              onChange={(e) => setOtpInput(e.target.value.replace(/\D/g, ''))}
+              className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (otpInput === generatedOtp) {
+                localStorage.setItem('grc_admin_mode', 'true');
+                seedDemoStorage('Corporate GRC HQ');
+                const mockProfile = {
+                  id: 'mock-user-123',
+                  email: 'admin@platform.local',
+                  name: 'SecOps Administrator',
+                  role: 'super_admin' as const,
+                  status: 'active' as const
+                };
+                useAuthStore.getState().setAuth(mockProfile, 'mock-demo-token');
+                useAuthStore.getState().setNeedsSetup(false);
+                toast.success('MFA Passcode Verified! Identity authenticated as super_admin.');
+                setShowOtpModal(false);
+                navigate('/');
+              } else {
+                toast.error('Invalid verification passcode. Authentication rejected.');
+              }
+            }}
+            className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors"
+          >
+            Verify & Grant Access
+          </button>
+        </div>
+      </Modal>
+
     </div>
   );
 };

@@ -33,3 +33,33 @@
   backdrop-filter: blur(12px);
   border: 1px solid rgba(35, 45, 69, 0.5);
 }
+
+/* Fix select option colors for dark and light mode compatibility */
+select option {
+  background-color: #161d30 !important; /* dark card background */
+  color: #f3f4f6 !important; /* slate light text */
+}
+
+.light select option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Fix Date Picker UI Native Icons for dark and light mode compatibility */
+input[type="date"] {
+  color-scheme: dark; /* Forces native browser calendar popover to use dark styling */
+}
+
+.light input[type="date"] {
+  color-scheme: light; /* Forces native browser calendar popover to use light styling */
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.9); /* Invert calendar icon to be white/slate in dark mode */
+}
+
+.light input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: none; /* Restore normal calendar icon in light mode */
+}
+

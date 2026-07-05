@@ -35,11 +35,11 @@ export const Navbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      const isDemo = localStorage.getItem('grc_demo_mode') === 'true';
-      if (isDemo) {
-        localStorage.removeItem('grc_demo_mode');
+      const isAdmin = localStorage.getItem('grc_admin_mode') === 'true';
+      if (isAdmin) {
+        localStorage.removeItem('grc_admin_mode');
         useAuthStore.getState().setAuth(null, null);
-        toast.success('Logged out from demo simulation');
+        toast.success('Logged out from admin sandbox');
       } else {
         await signOut(auth);
         toast.success('Logged out successfully');
@@ -62,9 +62,9 @@ export const Navbar: React.FC = () => {
     <header className="h-16 border-b border-dark-border bg-dark-card/50 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-semibold text-dark-text tracking-wide">Enterprise Risk Assessment</h2>
-        {localStorage.getItem('grc_demo_mode') === 'true' && (
+        {localStorage.getItem('grc_admin_mode') === 'true' && (
           <span className="px-2.5 py-0.5 text-[9px] bg-brand-500/15 text-brand-400 border border-brand-500/30 rounded-full font-bold uppercase tracking-wider animate-pulse shrink-0">
-            Demo Mode (Browser Storage)
+            🛡️ Admin Mode (Local Sandbox)
           </span>
         )}
         {user?.isUnregistered && (

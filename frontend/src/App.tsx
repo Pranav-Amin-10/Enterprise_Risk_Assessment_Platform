@@ -20,9 +20,24 @@ import { Login } from './pages/Login';
 import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 
+import { useThemeStore } from './store/useThemeStore';
+
 export const App: React.FC = () => {
   const { user, loading, needsSetup, initialize } = useAuthStore() as any;
+  const theme = useThemeStore((state) => state.theme);
   const location = useLocation();
+
+  // Sync theme to root HTML element
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Initialize Auth Sync on component mount
   useEffect(() => {
