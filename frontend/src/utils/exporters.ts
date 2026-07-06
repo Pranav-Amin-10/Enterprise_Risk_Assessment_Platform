@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 
@@ -148,7 +148,7 @@ export const exportToPDF = (config: PDFReportConfig, filename: string) => {
   });
 
   // Render Table
-  (doc as any).autoTable({
+  autoTable(doc, {
     startY: 55,
     head: [config.headers],
     body: bodyRows,
