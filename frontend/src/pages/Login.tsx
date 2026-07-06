@@ -53,7 +53,7 @@ export const Login: React.FC = () => {
       setShowSetupModal(true);
     } else {
       const adminEmail = localStorage.getItem('grc_admin_email') || 'admin@company.com';
-      const code = String(Math.floor(100000 + Math.random() * 900000));
+      const code = '123456';
       setGeneratedOtp(code);
       setOtpInput('');
       setShowOtpModal(true);
@@ -63,7 +63,7 @@ export const Login: React.FC = () => {
 
   const handleVerifyProductKey = (e: React.FormEvent) => {
     e.preventDefault();
-    if (productKey === 'GRC999' || productKey === '123456' || productKey === '777888') {
+    if (productKey === '123456') {
       toast.success('Product Key verified! Enter your administrator email.');
       setSetupStep(2);
     } else {
@@ -77,7 +77,7 @@ export const Login: React.FC = () => {
       toast.error('Email address is required.');
       return;
     }
-    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const code = '123456';
     setGeneratedActivationOtp(code);
     setActivationOtpInput('');
     setSetupStep(3);
