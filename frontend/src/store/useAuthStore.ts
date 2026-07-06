@@ -35,7 +35,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setupEmail: '',
   setAuth: (user, token) => set({ user, token, loading: false }),
   setNeedsSetup: (needsSetup) => set({ needsSetup }),
-  setTransientSetupState: (isConfiguring, email) => set({ isConfiguringPassword: isConfiguring, setupEmail: email }),
+  setTransientSetupState: (isConfiguring, email) => {
+    if (isConfiguring) {
+      set({ 
+        isConfiguringPassword: true, 
+        setupEmail: email,
+        user: {
+          id: 'temp-setup-id',
+          email: email,
+          name: 'Setup Administrator',
+          role: 'super_admin',
+          status: 'active'
+        }
+      });
+    } else {
+      set({ isConfiguringPassword: false, setupEmail: '', user: null });
+    }
+  },
   initialize: () => {
     if (get().initialized) return () => {};
 
