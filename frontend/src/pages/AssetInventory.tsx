@@ -387,13 +387,13 @@ export const AssetInventory: React.FC = () => {
                         </td>
                         <td className="p-4 capitalize">
                           <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-medium border ${
-                            asset.lifecycleStatus === 'active' 
+                            (asset.lifecycleStatus || 'active') === 'active' 
                               ? 'bg-emerald-950/20 border-emerald-800/40 text-emerald-300'
-                              : asset.lifecycleStatus === 'retired'
+                              : (asset.lifecycleStatus || 'active') === 'retired'
                               ? 'bg-red-950/20 border-red-800/40 text-red-300'
                               : 'bg-amber-950/20 border-amber-800/40 text-amber-300'
                           }`}>
-                            {asset.lifecycleStatus.replace('_', ' ')}
+                            {(asset.lifecycleStatus || 'active').replace('_', ' ')}
                           </span>
                         </td>
                         {!isReadOnly && (

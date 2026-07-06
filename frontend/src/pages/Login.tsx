@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../services/firebase';
 import { useAuthStore } from '../store/useAuthStore';
-import { Shield, Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
+import { Shield, Mail, Lock, LogIn, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { toast } from '../store/useToastStore';
 import { Modal } from '../components/ui/Modal';
 
@@ -13,6 +13,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
 
 
@@ -194,13 +195,21 @@ export const Login: React.FC = () => {
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-dark-muted" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-4 py-2.5 text-sm text-dark-text focus:outline-none focus:border-brand-500 transition-colors"
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-dark-text focus:outline-none focus:border-brand-500 transition-colors"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-dark-muted hover:text-white transition-colors"
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
           </div>
 

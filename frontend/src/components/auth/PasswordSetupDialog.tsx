@@ -4,7 +4,7 @@ import { auth } from '../../services/firebase';
 import { useAuthStore } from '../../store/useAuthStore';
 import { seedDemoStorage, getTable, saveTable } from '../../utils/mockApi';
 import { toast } from '../../store/useToastStore';
-import { Shield, Check, X, Lock } from 'lucide-react';
+import { Shield, Check, X, Lock, Eye, EyeOff } from 'lucide-react';
 
 export const PasswordSetupDialog: React.FC = () => {
   const setupEmail = useAuthStore((state) => state.setupEmail) || '';
@@ -13,6 +13,8 @@ export const PasswordSetupDialog: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Requirements Checks
   const hasMinLength = password.length >= 8;
@@ -127,13 +129,21 @@ export const PasswordSetupDialog: React.FC = () => {
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-dark-muted" />
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-dark-muted hover:text-white transition-colors"
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
           </div>
 
@@ -142,13 +152,21 @@ export const PasswordSetupDialog: React.FC = () => {
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-dark-muted" />
               <input
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-3 text-dark-muted hover:text-white transition-colors"
+                title={showConfirmPassword ? 'Hide password' : 'Show password'}
+              >
+                {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
             </div>
           </div>
 

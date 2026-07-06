@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Edit2, Trash2, Users, Building, UserX, UserCheck } from 'lucide-react';
+import { Plus, Edit2, Trash2, Users, Building, UserX, UserCheck, Check, X, Eye, EyeOff } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';
@@ -24,8 +24,33 @@ export const Settings: React.FC = () => {
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
+  const [showUserPassword, setShowUserPassword] = useState(false);
   const [userRole, setUserRole] = useState<'super_admin' | 'ciso' | 'risk_manager' | 'auditor' | 'asset_owner' | 'risk_owner' | 'department_head' | 'viewer'>('viewer');
   const [userStatus, setUserStatus] = useState<'active' | 'locked' | 'pending'>('pending');
+
+  // User Password Complexity Calculations
+  const hasMinLength = userPassword.length >= 8;
+  const hasUppercase = /[A-Z]/.test(userPassword);
+  const hasLowercase = /[a-z]/.test(userPassword);
+  const hasNumber = /[0-9]/.test(userPassword);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(userPassword);
+
+  const strengthScore = [
+    hasMinLength,
+    hasUppercase,
+    hasLowercase,
+    hasNumber,
+    hasSpecial
+  ].filter(Boolean).length;
+
+  const getStrengthLabel = () => {
+    if (userPassword.length === 0) return { label: 'None', color: 'bg-dark-border', text: 'text-dark-muted' };
+    if (strengthScore <= 2) return { label: 'Weak', color: 'bg-red-500', text: 'text-red-400' };
+    if (strengthScore <= 4) return { label: 'Medium', color: 'bg-amber-500', text: 'text-amber-400' };
+    return { label: 'Strong', color: 'bg-emerald-500', text: 'text-emerald-400' };
+  };
+
+  const strength = getStrengthLabel();
 
   // Org Form States
   const [orgName, setOrgName] = useState('');
@@ -193,6 +218,7 @@ export const Settings: React.FC = () => {
     setUserEmail('');
     setUserName('');
     setUserPassword('');
+    setShowUserPassword(false);
     setUserRole('viewer');
     setUserStatus('pending');
     setIsUserModalOpen(true);
@@ -203,6 +229,7 @@ export const Settings: React.FC = () => {
     setUserEmail(u.email);
     setUserName(u.name);
     setUserPassword('');
+    setShowUserPassword(false);
     setUserRole(u.role);
     setUserStatus(u.status);
     setIsUserModalOpen(true);
@@ -217,6 +244,11 @@ export const Settings: React.FC = () => {
     e.preventDefault();
     if (!userEmail || !userName) {
       toast.error('Email and Name are required');
+      return;
+    }
+
+    if (userPassword && strengthScore < 5) {
+      toast.error('Password must fulfill all security complexity requirements.');
       return;
     }
 
@@ -515,14 +547,62 @@ export const Settings: React.FC = () => {
             <label className="text-xs font-semibold text-dark-text">
               {selectedUser ? 'New Password (leave blank to keep unchanged)' : 'Account Password'}
             </label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              value={userPassword}
-              onChange={(e) => setUserPassword(e.target.value)}
-              className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text focus:outline-none focus:border-brand-500"
-              required={!selectedUser}
-            />
+            <div className="relative">
+              <input
+                type={showUserPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={userPassword}
+                onChange={(e) => setUserPassword(e.target.value)}
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-3 pr-10 py-2 text-xs text-dark-text focus:outline-none focus:border-brand-500"
+                required={!selectedUser}
+              />
+              <button
+                type="button"
+                onClick={() => setShowUserPassword(!showUserPassword)}
+                className="absolute right-3 top-2 text-dark-muted hover:text-white transition-colors"
+                title={showUserPassword ? 'Hide password' : 'Show password'}
+              >
+                {showUserPassword ? <EyeOff className="h-4.5 w-4.5" /> : <Eye className="h-4.5 w-4.5" />}
+              </button>
+            </div>
+
+            {/* Password Complexity Checklist & Meter */}
+            {userPassword.length > 0 && (
+              <div className="mt-2 space-y-2 bg-[#232d45]/10 border border-dark-border/40 rounded-lg p-3 text-left">
+                <div className="flex justify-between items-center text-[9px] font-bold uppercase tracking-wider">
+                  <span className="text-dark-muted">Password Strength</span>
+                  <span className={strength.text}>{strength.label}</span>
+                </div>
+                <div className="h-1 w-full bg-dark-border rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full ${strength.color} transition-all duration-300`} 
+                    style={{ width: `${(strengthScore / 5) * 100}%` }}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-x-2 gap-y-1 mt-2 text-[10px]">
+                  <div className="flex items-center gap-1">
+                    {hasMinLength ? <Check className="h-3 w-3 text-emerald-400" /> : <X className="h-3 w-3 text-red-500" />}
+                    <span className={hasMinLength ? 'text-dark-text font-medium' : 'text-dark-muted'}>Min 8 chars</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {hasUppercase ? <Check className="h-3 w-3 text-emerald-400" /> : <X className="h-3 w-3 text-red-500" />}
+                    <span className={hasUppercase ? 'text-dark-text font-medium' : 'text-dark-muted'}>Uppercase (A-Z)</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {hasLowercase ? <Check className="h-3 w-3 text-emerald-400" /> : <X className="h-3 w-3 text-red-500" />}
+                    <span className={hasLowercase ? 'text-dark-text font-medium' : 'text-dark-muted'}>Lowercase (a-z)</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    {hasNumber ? <Check className="h-3 w-3 text-emerald-400" /> : <X className="h-3 w-3 text-red-500" />}
+                    <span className={hasNumber ? 'text-dark-text font-medium' : 'text-dark-muted'}>Number (0-9)</span>
+                  </div>
+                  <div className="flex items-center gap-1 col-span-2">
+                    {hasSpecial ? <Check className="h-3 w-3 text-emerald-400" /> : <X className="h-3 w-3 text-red-500" />}
+                    <span className={hasSpecial ? 'text-dark-text font-medium' : 'text-dark-muted'}>Special symbol (!@#$...)</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-1">
