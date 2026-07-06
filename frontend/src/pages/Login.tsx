@@ -36,14 +36,17 @@ export const Login: React.FC = () => {
     try {
       // 1. Try Firebase Auth sign in
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        await userCredential.user.getIdToken();
         localStorage.setItem('grc_admin_mode', 'true');
         localStorage.setItem('grc_logged_in_user_email', email);
+
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await userCredential.user.getIdToken();
         toast.success('Logged in successfully via Firebase');
         navigate('/');
         return;
       } catch (fbErr) {
+        localStorage.removeItem('grc_admin_mode');
+        localStorage.removeItem('grc_logged_in_user_email');
         console.warn('Firebase login failed. Attempting local simulator credentials check...');
       }
 
