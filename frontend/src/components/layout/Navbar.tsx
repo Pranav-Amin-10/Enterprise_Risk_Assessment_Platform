@@ -35,15 +35,11 @@ export const Navbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      const isAdmin = localStorage.getItem('grc_admin_mode') === 'true';
-      if (isAdmin) {
-        localStorage.removeItem('grc_admin_mode');
-        useAuthStore.getState().setAuth(null, null);
-        toast.success('Logged out from admin sandbox');
-      } else {
-        await signOut(auth);
-        toast.success('Logged out successfully');
-      }
+      localStorage.removeItem('grc_admin_mode');
+      localStorage.removeItem('grc_logged_in_user_email');
+      useAuthStore.getState().setAuth(null, null);
+      await signOut(auth);
+      toast.success('Logged out successfully');
     } catch (err: any) {
       toast.error(`Logout failed: ${err.message}`);
     }

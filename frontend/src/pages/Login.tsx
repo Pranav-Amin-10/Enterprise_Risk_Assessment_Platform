@@ -38,6 +38,7 @@ export const Login: React.FC = () => {
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         await userCredential.user.getIdToken();
+        localStorage.setItem('grc_admin_mode', 'true');
         localStorage.setItem('grc_logged_in_user_email', email);
         toast.success('Logged in successfully via Firebase');
         navigate('/');
