@@ -21,9 +21,10 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 
 import { useThemeStore } from './store/useThemeStore';
+import { PasswordSetupDialog } from './components/auth/PasswordSetupDialog';
 
 export const App: React.FC = () => {
-  const { user, loading, needsSetup, initialize } = useAuthStore() as any;
+  const { user, loading, needsSetup, initialize, isConfiguringPassword } = useAuthStore() as any;
   const theme = useThemeStore((state) => state.theme);
   const location = useLocation();
 
@@ -67,7 +68,7 @@ export const App: React.FC = () => {
   }
 
   // 3. Authenticated check
-  const isAuthenticated = !!user && !user.isUnregistered;
+  const isAuthenticated = (!!user && !user.isUnregistered) || isConfiguringPassword;
 
   if (!isAuthenticated) {
     // Permit public password reset URLs
@@ -134,6 +135,7 @@ export const App: React.FC = () => {
 
       {/* Global Toast Alerts */}
       <ToastContainer />
+      {isConfiguringPassword && <PasswordSetupDialog />}
     </div>
   );
 };

@@ -227,6 +227,26 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
       return new Response(JSON.stringify(newUser), { status: 201 });
     }
   }
+  if (path.includes('/api/users/')) {
+    const id = path.split('/').pop();
+    const users = getTable('users');
+    if (method === 'PUT') {
+      let updatedUser: any = null;
+      users.forEach((u, i) => {
+        if (u.id === id) {
+          users[i] = { ...u, ...body };
+          updatedUser = users[i];
+        }
+      });
+      saveTable('users', users);
+      return new Response(JSON.stringify(updatedUser), { status: 200 });
+    }
+    if (method === 'DELETE') {
+      const remainingUsers = users.filter(u => u.id !== id);
+      saveTable('users', remainingUsers);
+      return new Response(null, { status: 204 });
+    }
+  }
 
   // --- ASSETS INVENTORY ---
   if (path.endsWith('/api/assets')) {

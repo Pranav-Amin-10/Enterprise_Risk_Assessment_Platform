@@ -4,7 +4,6 @@ import { auth } from '../services/firebase';
 import { useAuthStore } from '../store/useAuthStore';
 import { Shield, ArrowRight, Building, User, Lock, CheckCircle2 } from 'lucide-react';
 import { toast } from '../store/useToastStore';
-import { seedDemoStorage } from '../utils/mockApi';
 import { Modal } from '../components/ui/Modal';
 
 export const SetupWizard: React.FC = () => {
@@ -15,22 +14,20 @@ export const SetupWizard: React.FC = () => {
   const [otpInput, setOtpInput] = useState('');
   const [generatedOtp, setGeneratedOtp] = useState('');
 
-  // First-time Admin Setup States
-  const [showSetupModal, setShowSetupModal] = useState(false);
-  const [setupLoading, setSetupLoading] = useState(false);
-  const [setupName, setSetupName] = useState('');
-  const [setupEmail, setSetupEmail] = useState('');
-  const [setupPassword, setSetupPassword] = useState('');
-  const [setupCompany, setSetupCompany] = useState('');
-  const [setupLocation, setSetupLocation] = useState('');
-
-  // Form State
+  // Main System Bootstrap Wizard States
   const [adminName, setAdminName] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
-  
   const [companyName, setCompanyName] = useState('');
   const [location, setLocation] = useState('');
+
+  // First-time Admin Mode Activation States (Activation Wizard)
+  const [showSetupModal, setShowSetupModal] = useState(false);
+  const [setupStep, setSetupStep] = useState(1); // 1 = Product Key, 2 = Email, 3 = OTP Input
+  const [productKey, setProductKey] = useState('');
+  const [setupEmail, setSetupEmail] = useState('');
+  const [activationOtpInput, setActivationOtpInput] = useState('');
+  const [generatedActivationOtp, setGeneratedActivationOtp] = useState('');
 
   const [firebaseToken, setFirebaseToken] = useState<string | null>(null);
 
@@ -77,47 +74,42 @@ export const SetupWizard: React.FC = () => {
     }
   };
 
-  const handleSetupSubmit = async (e: React.FormEvent) => {
+  const handleVerifyProductKey = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!setupName || !setupEmail || !setupPassword || !setupCompany) {
-      toast.error('All setup fields are required');
+    if (productKey === 'GRC999' || productKey === '123456' || productKey === '777888') {
+      toast.success('Product Key verified! Enter your administrator email.');
+      setSetupStep(2);
+    } else {
+      toast.error('Invalid Product Activation Key. Please verify the code.');
+    }
+  };
+
+  const handleSendActivationOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!setupEmail) {
+      toast.error('Email address is required.');
       return;
     }
-    if (setupPassword.length < 8) {
-      toast.error('Password must be at least 8 characters');
-      return;
-    }
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    setGeneratedActivationOtp(code);
+    setActivationOtpInput('');
+    setSetupStep(3);
+    toast.success(`🔑 [Secure Mail Simulator] Verification Passcode sent to ${setupEmail}: ${code}`);
+  };
 
-    setSetupLoading(true);
-    try {
-      // 1. Create account in Firebase
-      const userCredential = await createUserWithEmailAndPassword(auth, setupEmail, setupPassword);
-      const token = await userCredential.user.getIdToken();
-
-      // 2. Bootstrap localStorage GRC schema
-      seedDemoStorage(setupCompany, setupEmail, setupName, setupLocation || 'Headquarters');
-      localStorage.setItem('grc_admin_mode', 'true');
-      localStorage.setItem('grc_admin_email', setupEmail);
-
-      // 3. Authenticate user locally in Zustand store
-      const mockProfile = {
-        id: 'mock-user-123',
-        email: setupEmail,
-        name: setupName,
-        role: 'super_admin' as const,
-        status: 'active' as const
-      };
-      useAuthStore.getState().setAuth(mockProfile, token);
-      useAuthStore.getState().setNeedsSetup(false);
-
-      toast.success('Admin Mode authenticated and bootstrapped in Firebase!');
+  const handleVerifyActivationOtp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (activationOtpInput === generatedActivationOtp) {
+      toast.success('Passcode verified! Directing to secure password setup.');
       setShowSetupModal(false);
+      
+      const setTransientSetupState = useAuthStore.getState().setTransientSetupState;
+      if (setTransientSetupState) {
+        setTransientSetupState(true, setupEmail);
+      }
       window.location.reload();
-    } catch (err: any) {
-      console.error(err);
-      toast.error(`Setup registration failed: ${err.message}`);
-    } finally {
-      setSetupLoading(false);
+    } else {
+      toast.error('Incorrect activation code. Access denied.');
     }
   };
 
@@ -393,33 +385,48 @@ export const SetupWizard: React.FC = () => {
         </div>
       </Modal>
 
-      {/* First-Time Setup Modal */}
+      {/* First-Time Setup Modal (Product Key & OTP) */}
       <Modal
         isOpen={showSetupModal}
-        onClose={() => setShowSetupModal(false)}
-        title="Bootstrap Admin Mode (First Time Setup)"
-        size="md"
+        onClose={() => {
+          setShowSetupModal(false);
+          setSetupStep(1);
+        }}
+        title="Admin Mode Activation Wizard"
+        size="sm"
       >
-        <form onSubmit={handleSetupSubmit} className="space-y-4 text-left">
-          <p className="text-xs text-dark-muted leading-relaxed">
-            Create your root administrator credentials. This account will be securely registered in your <strong>Firebase Auth</strong> project, and default GRC assets/risks will be seeded locally in your browser sandbox.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {setupStep === 1 && (
+          <form onSubmit={handleVerifyProductKey} className="space-y-4 text-left">
+            <p className="text-xs text-dark-muted leading-relaxed">
+              To activate Admin Mode, enter your 6-digit GRC platform product key.
+            </p>
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Admin Full Name</label>
+              <label className="text-xs font-semibold text-dark-text">Product Key</label>
               <input
                 type="text"
-                placeholder="e.g. John Doe"
-                value={setupName}
-                onChange={(e) => setSetupName(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"
+                placeholder="e.g. GRC999"
+                value={productKey}
+                onChange={(e) => setProductKey(e.target.value.toUpperCase())}
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500"
                 required
               />
             </div>
+            <button
+              type="submit"
+              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
+            >
+              Verify Activation Code
+            </button>
+          </form>
+        )}
 
+        {setupStep === 2 && (
+          <form onSubmit={handleSendActivationOtp} className="space-y-4 text-left">
+            <p className="text-xs text-dark-muted leading-relaxed">
+              Enter your corporate email address to receive an authentication passcode challenge.
+            </p>
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Corporate Email</label>
+              <label className="text-xs font-semibold text-dark-text">Admin Email Address</label>
               <input
                 type="email"
                 placeholder="admin@company.com"
@@ -429,51 +436,40 @@ export const SetupWizard: React.FC = () => {
                 required
               />
             </div>
+            <button
+              type="submit"
+              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
+            >
+              Send Verification Code
+            </button>
+          </form>
+        )}
 
+        {setupStep === 3 && (
+          <form onSubmit={handleVerifyActivationOtp} className="space-y-4 text-left">
+            <p className="text-xs text-dark-muted leading-relaxed">
+              Enter the 6-digit passcode sent to your inbox: <strong>{setupEmail}</strong>.
+            </p>
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Password</label>
+              <label className="text-xs font-semibold text-dark-text">Verification Passcode</label>
               <input
-                type="password"
-                placeholder="Min 8 characters"
-                value={setupPassword}
-                onChange={(e) => setSetupPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"
+                type="text"
+                maxLength={6}
+                placeholder="e.g. 123456"
+                value={activationOtpInput}
+                onChange={(e) => setActivationOtpInput(e.target.value.replace(/\D/g, ''))}
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500"
                 required
               />
             </div>
-
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Company Name</label>
-              <input
-                type="text"
-                placeholder="e.g. Acme Corp"
-                value={setupCompany}
-                onChange={(e) => setSetupCompany(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"
-                required
-              />
-            </div>
-
-            <div className="space-y-1 md:col-span-2">
-              <label className="text-xs font-semibold text-dark-text">Office Location (Optional)</label>
-              <input
-                type="text"
-                placeholder="e.g. New York, NY"
-                value={setupLocation}
-                onChange={(e) => setSetupLocation(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={setupLoading}
-            className="w-full bg-brand-500 hover:bg-brand-600 disabled:opacity-50 text-white font-semibold text-xs py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
-          >
-            {setupLoading ? 'Creating credentials in Firebase...' : 'Register Account & Seed Platform'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
+            >
+              Verify OTP & Complete Setup
+            </button>
+          </form>
+        )}
       </Modal>
 
     </div>

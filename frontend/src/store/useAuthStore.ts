@@ -17,8 +17,11 @@ interface AuthState {
   loading: boolean;
   initialized: boolean;
   needsSetup: boolean;
+  isConfiguringPassword?: boolean;
+  setupEmail?: string;
   setAuth: (user: UserProfile | null, token: string | null) => void;
   setNeedsSetup: (needsSetup: boolean) => void;
+  setTransientSetupState?: (isConfiguring: boolean, email: string) => void;
   initialize: () => () => void;
 }
 
@@ -28,8 +31,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   loading: true,
   initialized: false,
   needsSetup: false,
+  isConfiguringPassword: false,
+  setupEmail: '',
   setAuth: (user, token) => set({ user, token, loading: false }),
   setNeedsSetup: (needsSetup) => set({ needsSetup }),
+  setTransientSetupState: (isConfiguring, email) => set({ isConfiguringPassword: isConfiguring, setupEmail: email }),
   initialize: () => {
     if (get().initialized) return () => {};
 
