@@ -259,7 +259,7 @@ export const SetupWizard: React.FC = () => {
               className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-400 hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
             >
               <Shield className="h-4 w-4 text-brand-500 animate-pulse" />
-              Launch Admin Mode (Verifiable Access)
+              First Time Sign Up / Activate Platform
             </button>
           </>
         )}

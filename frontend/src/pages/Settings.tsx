@@ -23,6 +23,7 @@ export const Settings: React.FC = () => {
   // User Form States
   const [userEmail, setUserEmail] = useState('');
   const [userName, setUserName] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [userRole, setUserRole] = useState<'super_admin' | 'ciso' | 'risk_manager' | 'auditor' | 'asset_owner' | 'risk_owner' | 'department_head' | 'viewer'>('viewer');
   const [userStatus, setUserStatus] = useState<'active' | 'locked' | 'pending'>('pending');
 
@@ -191,6 +192,7 @@ export const Settings: React.FC = () => {
     setSelectedUser(null);
     setUserEmail('');
     setUserName('');
+    setUserPassword('');
     setUserRole('viewer');
     setUserStatus('pending');
     setIsUserModalOpen(true);
@@ -200,6 +202,7 @@ export const Settings: React.FC = () => {
     setSelectedUser(u);
     setUserEmail(u.email);
     setUserName(u.name);
+    setUserPassword('');
     setUserRole(u.role);
     setUserStatus(u.status);
     setIsUserModalOpen(true);
@@ -218,17 +221,26 @@ export const Settings: React.FC = () => {
     }
 
     if (selectedUser) {
-      updateUserMutation.mutate({
+      const payload: any = {
         name: userName,
         role: userRole,
         status: userStatus,
-      });
+      };
+      if (userPassword) {
+        payload.password = userPassword;
+      }
+      updateUserMutation.mutate(payload);
     } else {
+      if (!userPassword) {
+        toast.error('Password is required for new users');
+        return;
+      }
       createUserMutation.mutate({
         email: userEmail,
         name: userName,
         role: userRole,
         status: userStatus,
+        password: userPassword,
       });
     }
   };
@@ -496,6 +508,20 @@ export const Settings: React.FC = () => {
               onChange={(e) => setUserName(e.target.value)}
               className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text focus:outline-none focus:border-brand-500"
               required
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-dark-text">
+              {selectedUser ? 'New Password (leave blank to keep unchanged)' : 'Account Password'}
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={userPassword}
+              onChange={(e) => setUserPassword(e.target.value)}
+              className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text focus:outline-none focus:border-brand-500"
+              required={!selectedUser}
             />
           </div>
 

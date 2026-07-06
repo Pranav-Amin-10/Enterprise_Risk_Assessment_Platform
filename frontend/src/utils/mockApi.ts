@@ -17,7 +17,7 @@ const DEFAULT_VULNERABILITIES = [
 ];
 
 // Helper to load/save tables
-const getTable = (key: string, defaultData: any[] = []): any[] => {
+export const getTable = (key: string, defaultData: any[] = []): any[] => {
   const data = localStorage.getItem(`grc_mock_${key}`);
   if (!data) {
     localStorage.setItem(`grc_mock_${key}`, JSON.stringify(defaultData));
@@ -26,7 +26,7 @@ const getTable = (key: string, defaultData: any[] = []): any[] => {
   return JSON.parse(data);
 };
 
-const saveTable = (key: string, data: any[]) => {
+export const saveTable = (key: string, data: any[]) => {
   localStorage.setItem(`grc_mock_${key}`, JSON.stringify(data));
 };
 
@@ -50,9 +50,9 @@ export const seedDemoStorage = (
 
   // 2. Seed default users directory
   const users = [
-    { id: 'mock-user-123', email: adminEmail, name: adminName, role: 'super_admin', status: 'active' },
-    { id: 'mock-user-456', email: 'ciso@company.com', name: 'Chief Information Security Officer', role: 'ciso', status: 'active' },
-    { id: 'mock-user-789', email: 'manager@company.com', name: 'Risk Assessment Manager', role: 'risk_manager', status: 'active' },
+    { id: 'mock-user-123', email: adminEmail, name: adminName, role: 'super_admin', status: 'active', password: 'password123' },
+    { id: 'mock-user-456', email: 'ciso@company.com', name: 'Chief Information Security Officer', role: 'ciso', status: 'active', password: 'password123' },
+    { id: 'mock-user-789', email: 'manager@company.com', name: 'Risk Assessment Manager', role: 'risk_manager', status: 'active', password: 'password123' },
   ];
   saveTable('users', users);
 
@@ -178,14 +178,15 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
   // --- AUTH ME ROUTE ---
   if (path.endsWith('/api/auth/me')) {
     const users = getTable('users');
-    const superAdmin = users.find(u => u.role === 'super_admin') || {
+    const loggedInEmail = localStorage.getItem('grc_logged_in_user_email');
+    const currentUser = users.find(u => u.email === loggedInEmail) || users.find(u => u.role === 'super_admin') || {
       id: 'mock-user-123',
       email: 'admin@platform.local',
       name: 'SecOps Administrator',
       role: 'super_admin',
       status: 'active'
     };
-    return new Response(JSON.stringify(superAdmin), { status: 200 });
+    return new Response(JSON.stringify(currentUser), { status: 200 });
   }
 
   // --- ORGANIZATION NODES ---
@@ -220,7 +221,8 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
         email: body.email,
         name: body.name,
         role: body.role || 'viewer',
-        status: body.status || 'pending'
+        status: body.status || 'pending',
+        password: body.password || 'password123'
       };
       users.push(newUser);
       saveTable('users', users);

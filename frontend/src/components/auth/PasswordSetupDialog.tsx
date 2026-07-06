@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { useAuthStore } from '../../store/useAuthStore';
-import { seedDemoStorage } from '../../utils/mockApi';
+import { seedDemoStorage, getTable, saveTable } from '../../utils/mockApi';
 import { toast } from '../../store/useToastStore';
 import { Shield, Check, X, Lock } from 'lucide-react';
 
@@ -58,8 +58,17 @@ export const PasswordSetupDialog: React.FC = () => {
 
       // 2. Seed Mock Database locally
       seedDemoStorage('Corporate GRC HQ', setupEmail, 'Corporate Administrator');
+      const users = getTable('users');
+      users.forEach((u, i) => {
+        if (u.role === 'super_admin' || u.email === setupEmail) {
+          users[i].password = password;
+        }
+      });
+      saveTable('users', users);
+
       localStorage.setItem('grc_admin_mode', 'true');
       localStorage.setItem('grc_admin_email', setupEmail);
+      localStorage.setItem('grc_logged_in_user_email', setupEmail);
 
       // 3. Update Zustand Authentication State
       const mockProfile = {

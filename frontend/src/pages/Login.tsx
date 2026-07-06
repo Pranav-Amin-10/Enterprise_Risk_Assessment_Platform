@@ -36,9 +36,42 @@ export const Login: React.FC = () => {
 
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      toast.success('Logged in successfully');
-      navigate('/');
+      // 1. Try Firebase Auth sign in
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        await userCredential.user.getIdToken();
+        localStorage.setItem('grc_logged_in_user_email', email);
+        toast.success('Logged in successfully via Firebase');
+        navigate('/');
+        return;
+      } catch (fbErr) {
+        console.warn('Firebase login failed. Attempting local simulator credentials check...');
+      }
+
+      // 2. Fallback: Authenticate via mock users database
+      const { getTable } = await import('../utils/mockApi');
+      const users = getTable('users');
+      const matchedUser = users.find(u => u.email === email && u.password === password);
+
+      if (matchedUser) {
+        localStorage.setItem('grc_admin_mode', 'true');
+        localStorage.setItem('grc_logged_in_user_email', email);
+        
+        const mockProfile = {
+          id: matchedUser.id,
+          email: matchedUser.email,
+          name: matchedUser.name,
+          role: matchedUser.role,
+          status: matchedUser.status
+        };
+
+        useAuthStore.getState().setAuth(mockProfile, 'mock-demo-token');
+        useAuthStore.getState().setNeedsSetup(false);
+        toast.success(`Welcome back, ${matchedUser.name}! (Simulated Access)`);
+        navigate('/');
+      } else {
+        toast.error('Authentication failed: Invalid credentials.');
+      }
     } catch (err: any) {
       console.error(err);
       toast.error(`Authentication failed: ${err.message}`);
@@ -204,7 +237,7 @@ export const Login: React.FC = () => {
           className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-400 hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
         >
           <Shield className="h-4 w-4 text-brand-500 animate-pulse" />
-          Launch Admin Mode (Verifiable Access)
+          First Time Sign Up / Activate Platform
         </button>
 
         <div className="text-center text-[11px] text-dark-muted leading-relaxed">
