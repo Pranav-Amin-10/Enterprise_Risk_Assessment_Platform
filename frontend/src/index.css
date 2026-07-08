@@ -21,6 +21,55 @@
 
   body {
     @apply bg-dark-bg text-dark-text font-sans;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  /* Universal Theme Overrides for all Headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: rgb(var(--text-color)) !important;
+  }
+
+  /* Universal Inactive Tabs contrast fallback */
+  .text-dark-muted {
+    color: rgb(var(--muted-color)) !important;
+  }
+
+  /* Universal input/select placeholder/value styling in Light Mode */
+  .light input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]), 
+  .light select, 
+  .light textarea {
+    background-color: rgba(226, 232, 240, 0.4) !important;
+    color: rgb(var(--text-color)) !important;
+    border-color: rgb(var(--border-color)) !important;
+  }
+
+  /* Universal Option lists styles inside dropdown selects */
+  select option {
+    background-color: rgb(var(--card-color)) !important;
+    color: rgb(var(--text-color)) !important;
+  }
+
+  /* Universal support for hardcoded opacity overlays */
+  .light .bg-\[\#232d45\]\/20, 
+  .light .bg-\[\#232d45\]\/30,
+  .light .bg-\[\#232d45\]\/10,
+  .light .bg-\[\#232d45\]\/40 {
+    background-color: rgba(226, 232, 240, 0.5) !important;
+  }
+
+  .light .bg-\[\#161d30\]\/60 {
+    background-color: rgba(226, 232, 240, 0.7) !important;
+  }
+
+  /* Force white-text elements to become dark slate text in Light Mode (except buttons and badges) */
+  .light :not(button):not(.bg-brand-500):not(.bg-risk-low):not(.bg-risk-high):not(.bg-risk-critical):not(.bg-risk-medium):not(.bg-red-600) > .text-white,
+  .light .text-white:not(button):not(.bg-brand-500):not(.bg-risk-low):not(.bg-risk-high):not(.bg-risk-critical):not(.bg-risk-medium):not(.bg-red-600) {
+    color: rgb(var(--text-color)) !important;
+  }
+
+  /* Handle calendar picker styling in Light Mode */
+  .light input[type="date"] {
+    color-scheme: light !important;
   }
 }
 
