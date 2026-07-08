@@ -215,7 +215,7 @@ export const Reports: React.FC = () => {
                 <button
                   onClick={() => handleDownload(report.id, 'pdf')}
                   disabled={downloading !== null}
-                  className="flex items-center justify-center gap-1 bg-[#232d45]/30 hover:bg-dark-border text-white py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
+                  className="flex items-center justify-center gap-1 bg-dark-border/30 hover:bg-dark-border text-dark-text py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
                 >
                   <Download className="h-3.5 w-3.5" />
                   PDF
@@ -223,7 +223,7 @@ export const Reports: React.FC = () => {
                 <button
                   onClick={() => handleDownload(report.id, 'excel')}
                   disabled={downloading !== null}
-                  className="flex items-center justify-center gap-1 bg-[#232d45]/30 hover:bg-dark-border text-white py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
+                  className="flex items-center justify-center gap-1 bg-dark-border/30 hover:bg-dark-border text-dark-text py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
                 >
                   <Download className="h-3.5 w-3.5" />
                   Excel
@@ -231,7 +231,7 @@ export const Reports: React.FC = () => {
                 <button
                   onClick={() => handleDownload(report.id, 'csv')}
                   disabled={downloading !== null}
-                  className="flex items-center justify-center gap-1 bg-[#232d45]/30 hover:bg-dark-border text-white py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
+                  className="flex items-center justify-center gap-1 bg-dark-border/30 hover:bg-dark-border text-dark-text py-2 px-1.5 rounded font-semibold transition-colors border border-dark-border disabled:opacity-50"
                 >
                   <Download className="h-3.5 w-3.5" />
                   CSV
