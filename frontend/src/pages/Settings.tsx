@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Edit2, Trash2, Users, Building, UserX, UserCheck, Check, X, Eye, EyeOff } from 'lucide-react';
+import { useThemeStore } from '../store/useThemeStore';
+import { Plus, Edit2, Trash2, Users, Building, UserX, UserCheck, Check, X, Eye, EyeOff, Sliders } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';
@@ -11,7 +12,8 @@ export const Settings: React.FC = () => {
   const { user: currentActingUser } = useAuthStore() as any;
   const queryClient = useQueryClient();
 
-  const [activeTab, setActiveTab] = useState<'users' | 'orgs'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'orgs' | 'preferences'>('users');
+  const { fontSize, setFontSize, theme, toggleTheme } = useThemeStore();
   
   // Modals visibility states
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -351,6 +353,17 @@ export const Settings: React.FC = () => {
           <Building className="h-4.5 w-4.5" />
           Business Divisions & Nodes
         </button>
+        <button
+          onClick={() => setActiveTab('preferences')}
+          className={`px-4 py-2 font-semibold flex items-center gap-1.5 border-b-2 transition-all ${
+            activeTab === 'preferences'
+              ? 'border-brand-500 text-white'
+              : 'border-transparent text-dark-muted hover:text-dark-text'
+          }`}
+        >
+          <Sliders className="h-4.5 w-4.5" />
+          Console Preferences
+        </button>
       </div>
 
       {/* TAB 1: USER RBAC DIRECTORY */}
@@ -512,6 +525,78 @@ export const Settings: React.FC = () => {
               </table>
             </div>
           )}
+        </div>
+      )}
+
+      {/* TAB 3: USER PREFERENCES */}
+      {activeTab === 'preferences' && (
+        <div className="space-y-6 max-w-xl">
+          <div className="bg-dark-card border border-dark-border rounded-xl p-6 space-y-6 shadow-sm">
+            <div>
+              <h3 className="text-sm font-semibold text-white mb-1">Display & Theme</h3>
+              <p className="text-[11px] text-dark-muted">Customize the platform's visual appearance and color scheme.</p>
+            </div>
+
+            <div className="flex items-center justify-between py-3 border-b border-dark-border/40">
+              <div>
+                <span className="font-semibold text-white">Visual Interface Theme</span>
+                <p className="text-[10px] text-dark-muted mt-0.5">Toggle between dark mode console and light mode interface.</p>
+              </div>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="bg-brand-500 hover:bg-brand-600 text-white px-4 py-1.5 rounded font-bold shadow-md shadow-brand-500/10 transition-colors"
+              >
+                Switch to {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <span className="font-semibold text-white">Interface Scale & Text Density</span>
+                <p className="text-[10px] text-dark-muted mt-0.5">Adjust the global text sizes and spacing densities across the platform.</p>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setFontSize('sm')}
+                  className={`py-2 px-3 rounded-lg border font-semibold text-center transition-all ${
+                    fontSize === 'sm'
+                      ? 'bg-brand-500/10 border-brand-500 text-brand-400 font-bold'
+                      : 'bg-[#232d45]/20 border-dark-border text-dark-muted hover:text-white'
+                  }`}
+                >
+                  <div className="text-xs">Small</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">14.5px Base</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFontSize('md')}
+                  className={`py-2 px-3 rounded-lg border font-semibold text-center transition-all ${
+                    fontSize === 'md'
+                      ? 'bg-brand-500/10 border-brand-500 text-brand-400 font-bold'
+                      : 'bg-[#232d45]/20 border-dark-border text-dark-muted hover:text-white'
+                  }`}
+                >
+                  <div className="text-xs">Medium (Default)</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">16.25px Base</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFontSize('lg')}
+                  className={`py-2 px-3 rounded-lg border font-semibold text-center transition-all ${
+                    fontSize === 'lg'
+                      ? 'bg-brand-500/10 border-brand-500 text-brand-400 font-bold'
+                      : 'bg-[#232d45]/20 border-dark-border text-dark-muted hover:text-white'
+                  }`}
+                >
+                  <div className="text-xs">Large</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">18.0px Base</div>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

@@ -26,9 +26,10 @@ import { PasswordSetupDialog } from './components/auth/PasswordSetupDialog';
 export const App: React.FC = () => {
   const { user, loading, needsSetup, initialize, isConfiguringPassword } = useAuthStore() as any;
   const theme = useThemeStore((state) => state.theme);
+  const fontSize = useThemeStore((state) => state.fontSize);
   const location = useLocation();
 
-  // Sync theme to root HTML element
+  // Sync theme and font size to root HTML element
   useEffect(() => {
     const root = window.document.documentElement;
     if (theme === 'dark') {
@@ -38,7 +39,15 @@ export const App: React.FC = () => {
       root.classList.add('light');
       root.classList.remove('dark');
     }
-  }, [theme]);
+
+    if (fontSize === 'sm') {
+      root.style.fontSize = '14.5px';
+    } else if (fontSize === 'md') {
+      root.style.fontSize = '16.25px';
+    } else {
+      root.style.fontSize = '18.0px';
+    }
+  }, [theme, fontSize]);
 
   // Initialize Auth Sync on component mount
   useEffect(() => {
