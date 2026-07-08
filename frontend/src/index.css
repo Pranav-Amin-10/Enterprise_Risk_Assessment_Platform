@@ -61,10 +61,65 @@
     background-color: rgba(226, 232, 240, 0.7) !important;
   }
 
-  /* Force white-text elements to become dark slate text in Light Mode (except buttons and badges) */
-  .light :not(button):not(.bg-brand-500):not(.bg-risk-low):not(.bg-risk-high):not(.bg-risk-critical):not(.bg-risk-medium):not(.bg-red-600) > .text-white,
-  .light .text-white:not(button):not(.bg-brand-500):not(.bg-risk-low):not(.bg-risk-high):not(.bg-risk-critical):not(.bg-risk-medium):not(.bg-red-600) {
+  /* Enforce white text to stay white on any element styled with a background color */
+  .light .text-white:not([class*="bg-"]):not(button) {
     color: rgb(var(--text-color)) !important;
+  }
+
+  /* Map light text status badges to dark readable variations in Light Mode */
+  .light .text-emerald-300 {
+    color: #065f46 !important; /* emerald-800 */
+  }
+  .light .text-blue-300 {
+    color: #075985 !important; /* sky-800 */
+  }
+  .light .text-amber-300 {
+    color: #92400e !important; /* amber-800 */
+  }
+  .light .text-red-300 {
+    color: #991b1b !important; /* red-800 */
+  }
+  .light .text-purple-300 {
+    color: #6b21a8 !important; /* purple-800 */
+  }
+  .light .text-pink-300 {
+    color: #9d174d !important; /* pink-800 */
+  }
+
+  /* Map transparent dark background status badges to clean light variations in Light Mode */
+  .light .bg-emerald-955\/20,
+  .light .bg-emerald-950\/20 {
+    background-color: #d1fae5 !important; /* emerald-100 */
+  }
+  .light .bg-blue-955\/20,
+  .light .bg-blue-950\/20 {
+    background-color: #dbeafe !important; /* blue-100 */
+  }
+  .light .bg-amber-955\/20,
+  .light .bg-amber-950\/20 {
+    background-color: #fef3c7 !important; /* amber-100 */
+  }
+  .light .bg-purple-955\/20,
+  .light .bg-purple-950\/20 {
+    background-color: #f3e8ff !important; /* purple-100 */
+  }
+  .light .bg-red-955\/20,
+  .light .bg-red-950\/20 {
+    background-color: #fee2e2 !important; /* red-100 */
+  }
+
+  /* Boost contrast of light opacity borders/backgrounds in Light Mode */
+  .light .bg-purple-500\/10 {
+    background-color: rgba(168, 85, 247, 0.15) !important;
+  }
+  .light .bg-red-500\/10 {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+  }
+  .light .bg-emerald-500\/10 {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+  }
+  .light .bg-blue-500\/10 {
+    background-color: rgba(59, 130, 246, 0.15) !important;
   }
 
   /* Handle calendar picker styling in Light Mode */
