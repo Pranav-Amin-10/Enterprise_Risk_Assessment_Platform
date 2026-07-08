@@ -69,7 +69,7 @@ export const Login: React.FC = () => {
 
         useAuthStore.getState().setAuth(mockProfile, 'mock-demo-token');
         useAuthStore.getState().setNeedsSetup(false);
-        toast.success(`Welcome back, ${matchedUser.name}! (Simulated Access)`);
+        toast.success(`Welcome back, ${matchedUser.name}!`);
         navigate('/');
       } else {
         toast.error('Authentication failed: Invalid credentials.');
@@ -315,7 +315,7 @@ export const Login: React.FC = () => {
               <div className="bg-[#232d45]/20 border border-brand-500/20 rounded-xl p-3 text-xs leading-relaxed text-dark-muted flex items-start gap-2.5">
                 <span className="text-base">💡</span>
                 <div>
-                  <span className="font-semibold text-brand-400">Evaluation Mode Key:</span>
+                  <span className="font-semibold text-brand-400">Default Activation Key:</span>
                   <p className="mt-0.5">Use activation code <code className="px-1.5 py-0.5 bg-brand-500/10 border border-brand-500/30 rounded text-brand-300 font-bold text-[11px]">123456</code> to unlock standard setup access.</p>
                 </div>
               </div>
@@ -374,7 +374,7 @@ export const Login: React.FC = () => {
               <div className="bg-[#232d45]/20 border border-emerald-500/20 rounded-xl p-3 text-xs leading-relaxed text-dark-muted flex items-start gap-2.5">
                 <span className="text-base">🔑</span>
                 <div>
-                  <span className="font-semibold text-emerald-400">Mail Simulator Passcode:</span>
+                  <span className="font-semibold text-emerald-400">Default Verification Passcode:</span>
                   <p className="mt-0.5">Use passcode <code className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded text-emerald-300 font-bold text-[11px]">123456</code> to verify email ownership.</p>
                 </div>
               </div>
