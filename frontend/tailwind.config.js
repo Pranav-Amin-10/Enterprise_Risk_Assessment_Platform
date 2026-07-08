@@ -24,11 +24,11 @@ export default {
           critical: '#7c3aed', // Purple/Violet
         },
         dark: {
-          bg: '#0b0f19',       // Deep navy/black
-          card: '#161d30',     // Dark slate card
-          border: '#232d45',   // Subtly lighter border
-          text: '#f3f4f6',     // High contrast off-white
-          muted: '#9ca3af',    // Gray text
+          bg: 'rgb(var(--bg-color) / <alpha-value>)',
+          card: 'rgb(var(--card-color) / <alpha-value>)',
+          border: 'rgb(var(--border-color) / <alpha-value>)',
+          text: 'rgb(var(--text-color) / <alpha-value>)',
+          muted: 'rgb(var(--muted-color) / <alpha-value>)',
         }
       },
       fontFamily: {

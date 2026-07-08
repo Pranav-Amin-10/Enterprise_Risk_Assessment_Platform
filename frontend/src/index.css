@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-color: 241 245 249;     /* slate-100 */
+    --card-color: 255 255 255;   /* white */
+    --border-color: 226 232 240; /* slate-200 */
+    --text-color: 15 23 42;      /* slate-900 */
+    --muted-color: 71 85 105;    /* slate-600 */
+  }
+
+  .dark {
+    --bg-color: 11 15 25;        /* deep navy/black */
+    --card-color: 22 29 48;      /* dark slate card */
+    --border-color: 35 45 69;    /* subtly lighter border */
+    --text-color: 243 244 246;   /* high contrast off-white */
+    --muted-color: 156 163 175;  /* gray text */
+  }
+
   body {
     @apply bg-dark-bg text-dark-text font-sans;
   }
