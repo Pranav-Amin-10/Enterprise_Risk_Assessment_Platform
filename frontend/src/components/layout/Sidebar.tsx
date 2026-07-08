@@ -41,7 +41,7 @@ export const Sidebar: React.FC = () => {
       {/* Brand logo */}
       <div className="h-16 px-6 border-b border-dark-border flex items-center gap-3">
         <ShieldIcon className="h-6 w-6 text-brand-500" />
-        <span className="font-bold text-white text-base tracking-wider">PLATFORM GRC</span>
+        <span className="font-bold text-dark-text text-base tracking-wider">PLATFORM GRC</span>
       </div>
 
       {/* Navigation List */}

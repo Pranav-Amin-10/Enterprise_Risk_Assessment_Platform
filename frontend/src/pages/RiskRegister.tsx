@@ -417,7 +417,7 @@ export const RiskRegister: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Risk Register</h1>
+          <h1 className="text-2xl font-bold text-dark-text tracking-tight">Risk Register</h1>
           <p className="text-xs text-dark-muted">Perform qualitative risk assessments, assign owners, link controls, and track treatments.</p>
         </div>
         {!isReadOnly && (
@@ -490,7 +490,7 @@ export const RiskRegister: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-dark-border text-dark-muted font-medium bg-[#161d30]/60">
+                <tr className="border-b border-dark-border text-dark-muted font-medium bg-dark-card/60">
                   <th className="p-4">ID</th>
                   <th className="p-4">Title</th>
                   <th className="p-4">Linked Asset</th>

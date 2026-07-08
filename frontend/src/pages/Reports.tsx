@@ -185,7 +185,7 @@ export const Reports: React.FC = () => {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight">Reports Center</h1>
+        <h1 className="text-2xl font-bold text-dark-text tracking-tight">Reports Center</h1>
         <p className="text-xs text-dark-muted">Generate auditor-ready enterprise compliance reports in PDF, Excel, and CSV formats.</p>
       </div>
 
@@ -203,7 +203,7 @@ export const Reports: React.FC = () => {
                   <Icon className="h-5 w-5" />
                 </div>
                 <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-white">{report.name}</h3>
+                  <h3 className="text-sm font-bold text-dark-text">{report.name}</h3>
                   <p className="text-xs text-dark-muted leading-relaxed min-h-[50px]">
                     {report.desc}
                   </p>

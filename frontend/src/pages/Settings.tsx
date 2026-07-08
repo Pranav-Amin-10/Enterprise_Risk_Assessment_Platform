@@ -325,7 +325,7 @@ export const Settings: React.FC = () => {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight">System Settings & Org Chart</h1>
+        <h1 className="text-2xl font-bold text-dark-text tracking-tight">System Settings & Org Chart</h1>
         <p className="text-xs text-dark-muted">Provision corporate directories, assign security roles, and define organizational departments.</p>
       </div>
 
@@ -370,7 +370,7 @@ export const Settings: React.FC = () => {
       {activeTab === 'users' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-sm font-semibold text-white">Registered Users ({usersList.length})</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Registered Users ({usersList.length})</h3>
             <button
               onClick={openCreateUserModal}
               className="flex items-center gap-1.5 bg-brand-500 hover:bg-brand-600 text-white px-3 py-1.5 rounded font-medium shadow-md shadow-brand-500/15"
@@ -405,7 +405,7 @@ export const Settings: React.FC = () => {
 
                     return (
                       <tr key={u.id} className="hover:bg-dark-border/20 transition-colors">
-                        <td className="p-3 text-white font-semibold flex items-center gap-1.5">
+                        <td className="p-3 text-dark-text font-semibold flex items-center gap-1.5">
                           {u.name}
                           {isSelf && <span className="text-[9px] px-1 py-0.2 bg-brand-500/20 text-brand-400 border border-brand-500/40 rounded">You</span>}
                         </td>
@@ -461,7 +461,7 @@ export const Settings: React.FC = () => {
       {activeTab === 'orgs' && (
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-sm font-semibold text-white">Organizational Hierarchy Nodes ({orgsList.length})</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Organizational Hierarchy Nodes ({orgsList.length})</h3>
             <button
               onClick={openCreateOrgModal}
               className="flex items-center gap-1.5 bg-brand-500 hover:bg-brand-600 text-white px-3 py-1.5 rounded font-medium shadow-md shadow-brand-500/15"
@@ -500,7 +500,7 @@ export const Settings: React.FC = () => {
 
                       return (
                         <tr key={o.id} className="hover:bg-dark-border/20 transition-colors">
-                          <td className="p-3 text-white font-bold">{o.name}</td>
+                          <td className="p-3 text-dark-text font-bold">{o.name}</td>
                           <td className="p-3 font-semibold uppercase text-[10px] tracking-wider">
                             <span className={typeColor}>{o.type.replace('_', ' ')}</span>
                           </td>

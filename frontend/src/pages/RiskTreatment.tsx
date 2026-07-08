@@ -213,7 +213,7 @@ export const RiskTreatment: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Risk Treatment Plans</h1>
+          <h1 className="text-2xl font-bold text-dark-text tracking-tight">Risk Treatment Plans</h1>
           <p className="text-xs text-dark-muted">Establish corrective action paths, budget allocations, milestones, and track mitigation progress.</p>
         </div>
         {!isReadOnly && (

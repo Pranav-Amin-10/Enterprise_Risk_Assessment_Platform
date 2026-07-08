@@ -25,7 +25,7 @@ export const AuditLogs: React.FC = () => {
       
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white tracking-tight animate-fade-in">Immutable Audit History</h1>
+        <h1 className="text-2xl font-bold text-dark-text tracking-tight animate-fade-in">Immutable Audit History</h1>
         <p className="text-xs text-dark-muted">Append-only system security ledger monitoring all CRUD, user provisioning, and file actions.</p>
       </div>
 

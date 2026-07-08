@@ -128,7 +128,7 @@ export const ThreatLibrary: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Threat Library</h1>
+          <h1 className="text-2xl font-bold text-dark-text tracking-tight">Threat Library</h1>
           <p className="text-xs text-dark-muted">Standard and custom catalogs of cyber threats, vectors, and risk events.</p>
         </div>
         {!isReadOnly && (

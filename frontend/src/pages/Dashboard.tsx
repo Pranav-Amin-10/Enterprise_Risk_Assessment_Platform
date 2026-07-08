@@ -200,7 +200,7 @@ export const Dashboard: React.FC = () => {
       {/* 1. Header Row */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Executive Dashboard</h1>
+          <h1 className="text-2xl font-bold text-dark-text tracking-tight">Executive Dashboard</h1>
           <p className="text-xs text-dark-muted">Real-time indicators of enterprise compliance and risk exposure.</p>
         </div>
       </div>
@@ -213,7 +213,7 @@ export const Dashboard: React.FC = () => {
             <div key={card.name} className="bg-dark-card border border-dark-border rounded-xl p-5 flex items-center justify-between shadow-sm">
               <div className="space-y-1">
                 <p className="text-[11px] font-semibold text-dark-muted uppercase tracking-wider">{card.name}</p>
-                <h3 className="text-2xl font-extrabold text-white">{card.value}</h3>
+                <h3 className="text-2xl font-extrabold text-dark-text">{card.value}</h3>
                 <p className="text-[10px] text-gray-500">{card.desc}</p>
               </div>
               <div className={`p-3 rounded-lg shrink-0 ${card.color}`}>
@@ -230,7 +230,7 @@ export const Dashboard: React.FC = () => {
         {/* Heatmap Card */}
         <div className="bg-dark-card border border-dark-border rounded-xl p-5 lg:col-span-2 shadow-sm flex flex-col">
           <div className="mb-2">
-            <h3 className="text-sm font-semibold text-white">Inherent Risk Heatmap</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Inherent Risk Heatmap</h3>
             <p className="text-[11px] text-dark-muted">Risk counts aggregated by Likelihood vs. Impact intersections.</p>
           </div>
           <div className="flex-1 min-h-[320px]">
@@ -241,7 +241,7 @@ export const Dashboard: React.FC = () => {
         {/* Asset category distribution Card */}
         <div className="bg-dark-card border border-dark-border rounded-xl p-5 shadow-sm flex flex-col">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-white">Risks by Asset Category</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Risks by Asset Category</h3>
             <p className="text-[11px] text-dark-muted">Distribution of active threats across systems types.</p>
           </div>
           <div className="flex-1 min-h-[280px]">
@@ -257,7 +257,7 @@ export const Dashboard: React.FC = () => {
         {/* Risks by Department */}
         <div className="bg-dark-card border border-dark-border rounded-xl p-5 shadow-sm flex flex-col">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-white">Risks by Business Department</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Risks by Business Department</h3>
             <p className="text-[11px] text-dark-muted">Risk density count comparison across business divisions.</p>
           </div>
           <div className="flex-1 min-h-[250px]">
@@ -268,7 +268,7 @@ export const Dashboard: React.FC = () => {
         {/* Top Risks table */}
         <div className="bg-dark-card border border-dark-border rounded-xl p-5 shadow-sm flex flex-col justify-between">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-white">Top 5 Inherent Risks</h3>
+            <h3 className="text-sm font-semibold text-dark-text">Top 5 Inherent Risks</h3>
             <p className="text-[11px] text-dark-muted">Highest impact and likelihood threats requiring treatment.</p>
           </div>
 
