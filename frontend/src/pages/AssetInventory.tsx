@@ -332,7 +332,7 @@ export const AssetInventory: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-dark-border text-dark-muted font-medium bg-[#161d30]/60">
+                <tr className="border-b border-dark-border text-dark-muted font-medium bg-dark-card/60">
                   <th className="p-4">ID</th>
                   <th className="p-4">Name</th>
                   <th className="p-4">Type</th>

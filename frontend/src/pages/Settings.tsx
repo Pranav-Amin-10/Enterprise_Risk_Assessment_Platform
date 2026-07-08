@@ -335,7 +335,7 @@ export const Settings: React.FC = () => {
           onClick={() => setActiveTab('users')}
           className={`px-4 py-2 font-semibold flex items-center gap-1.5 border-b-2 transition-all ${
             activeTab === 'users'
-              ? 'border-brand-500 text-white'
+              ? 'border-brand-500 text-dark-text'
               : 'border-transparent text-dark-muted hover:text-dark-text'
           }`}
         >
@@ -346,7 +346,7 @@ export const Settings: React.FC = () => {
           onClick={() => setActiveTab('orgs')}
           className={`px-4 py-2 font-semibold flex items-center gap-1.5 border-b-2 transition-all ${
             activeTab === 'orgs'
-              ? 'border-brand-500 text-white'
+              ? 'border-brand-500 text-dark-text'
               : 'border-transparent text-dark-muted hover:text-dark-text'
           }`}
         >
@@ -357,7 +357,7 @@ export const Settings: React.FC = () => {
           onClick={() => setActiveTab('preferences')}
           className={`px-4 py-2 font-semibold flex items-center gap-1.5 border-b-2 transition-all ${
             activeTab === 'preferences'
-              ? 'border-brand-500 text-white'
+              ? 'border-brand-500 text-dark-text'
               : 'border-transparent text-dark-muted hover:text-dark-text'
           }`}
         >
@@ -386,7 +386,7 @@ export const Settings: React.FC = () => {
             <div className="border border-dark-border bg-dark-card rounded-xl overflow-hidden shadow-sm">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-dark-border text-dark-muted font-medium bg-[#161d30]/60">
+                  <tr className="border-b border-dark-border text-dark-muted font-medium bg-dark-card/60">
                     <th className="p-3">Full Name</th>
                     <th className="p-3">Email Address</th>
                     <th className="p-3">Security Role</th>
@@ -477,7 +477,7 @@ export const Settings: React.FC = () => {
             <div className="border border-dark-border bg-dark-card rounded-xl overflow-hidden shadow-sm">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-dark-border text-dark-muted font-medium bg-[#161d30]/60">
+                  <tr className="border-b border-dark-border text-dark-muted font-medium bg-dark-card/60">
                     <th className="p-3">Node Name</th>
                     <th className="p-3">Node Type</th>
                     <th className="p-3">HQ / Location</th>

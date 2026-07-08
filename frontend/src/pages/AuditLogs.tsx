@@ -40,7 +40,7 @@ export const AuditLogs: React.FC = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-dark-border text-dark-muted font-medium bg-[#161d30]/60">
+                <tr className="border-b border-dark-border text-dark-muted font-medium bg-dark-card/60">
                   <th className="p-4">Timestamp</th>
                   <th className="p-4">User</th>
                   <th className="p-4">Operational Action</th>
