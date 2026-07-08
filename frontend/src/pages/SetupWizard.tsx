@@ -333,81 +333,145 @@ export const SetupWizard: React.FC = () => {
         title="Admin Mode Activation Wizard"
         size="sm"
       >
-        {setupStep === 1 && (
-          <form onSubmit={handleVerifyProductKey} className="space-y-4 text-left">
-            <p className="text-xs text-dark-muted leading-relaxed">
-              To activate Admin Mode, enter your 6-digit GRC platform product key.
-            </p>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Product Key</label>
-              <input
-                type="text"
-                placeholder="e.g. GRC999"
-                value={productKey}
-                onChange={(e) => setProductKey(e.target.value.toUpperCase())}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500"
-                required
-              />
+        <div className="space-y-6">
+          {/* Step Progress Visualizer */}
+          <div className="flex items-center justify-between px-2 pb-4 border-b border-dark-border/40">
+            <div className="flex flex-col items-center space-y-1">
+              <span className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
+                setupStep === 1 
+                  ? 'bg-brand-500 text-white ring-4 ring-brand-500/20' 
+                  : setupStep > 1 
+                  ? 'bg-emerald-500 text-white' 
+                  : 'bg-dark-border text-dark-muted'
+              }`}>
+                {setupStep > 1 ? '✓' : '1'}
+              </span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 1 ? 'text-brand-400' : 'text-dark-muted'}`}>License</span>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
-            >
-              Verify Activation Code
-            </button>
-          </form>
-        )}
+            <div className="flex-1 h-0.5 mx-2 bg-dark-border/40 relative">
+              <div className={`absolute inset-y-0 left-0 bg-brand-500 transition-all duration-300 ${setupStep > 1 ? 'w-full' : 'w-0'}`} />
+            </div>
+            <div className="flex flex-col items-center space-y-1">
+              <span className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
+                setupStep === 2 
+                  ? 'bg-brand-500 text-white ring-4 ring-brand-500/20' 
+                  : setupStep > 2 
+                  ? 'bg-emerald-500 text-white' 
+                  : 'bg-dark-border text-dark-muted'
+              }`}>
+                {setupStep > 2 ? '✓' : '2'}
+              </span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 2 ? 'text-brand-400' : 'text-dark-muted'}`}>Email</span>
+            </div>
+            <div className="flex-1 h-0.5 mx-2 bg-dark-border/40 relative">
+              <div className={`absolute inset-y-0 left-0 bg-brand-500 transition-all duration-300 ${setupStep > 2 ? 'w-full' : 'w-0'}`} />
+            </div>
+            <div className="flex flex-col items-center space-y-1">
+              <span className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${
+                setupStep === 3 
+                  ? 'bg-brand-500 text-white ring-4 ring-brand-500/20' 
+                  : 'bg-dark-border text-dark-muted'
+              }`}>
+                3
+              </span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 3 ? 'text-brand-400' : 'text-dark-muted'}`}>Verify</span>
+            </div>
+          </div>
 
-        {setupStep === 2 && (
-          <form onSubmit={handleSendActivationOtp} className="space-y-4 text-left">
-            <p className="text-xs text-dark-muted leading-relaxed">
-              Enter your corporate email address to receive an authentication passcode challenge.
-            </p>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Admin Email Address</label>
-              <input
-                type="email"
-                placeholder="admin@company.com"
-                value={setupEmail}
-                onChange={(e) => setSetupEmail(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-500"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
-            >
-              Send Verification Code
-            </button>
-          </form>
-        )}
+          {setupStep === 1 && (
+            <form onSubmit={handleVerifyProductKey} className="space-y-4 text-left">
+              <p className="text-xs text-dark-muted leading-relaxed">
+                To activate Admin Mode, enter your 6-digit GRC platform product key.
+              </p>
+              
+              <div className="bg-[#232d45]/20 border border-brand-500/20 rounded-xl p-3 text-xs leading-relaxed text-dark-muted flex items-start gap-2.5">
+                <span className="text-base">💡</span>
+                <div>
+                  <span className="font-semibold text-brand-400">Evaluation Mode Key:</span>
+                  <p className="mt-0.5">Use activation code <code className="px-1.5 py-0.5 bg-brand-500/10 border border-brand-500/30 rounded text-brand-300 font-bold text-[11px]">123456</code> to unlock standard setup access.</p>
+                </div>
+              </div>
 
-        {setupStep === 3 && (
-          <form onSubmit={handleVerifyActivationOtp} className="space-y-4 text-left">
-            <p className="text-xs text-dark-muted leading-relaxed">
-              Enter the 6-digit passcode sent to your inbox: <strong>{setupEmail}</strong>.
-            </p>
-            <div className="space-y-1">
-              <label className="text-xs font-semibold text-dark-text">Verification Passcode</label>
-              <input
-                type="text"
-                maxLength={6}
-                placeholder="e.g. 123456"
-                value={activationOtpInput}
-                onChange={(e) => setActivationOtpInput(e.target.value.replace(/\D/g, ''))}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4"
-            >
-              Verify OTP & Complete Setup
-            </button>
-          </form>
-        )}
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-dark-text">Product Key</label>
+                <input
+                  type="text"
+                  placeholder="e.g. GRC999"
+                  value={productKey}
+                  onChange={(e) => setProductKey(e.target.value.toUpperCase())}
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 shadow-lg shadow-brand-500/10"
+              >
+                Verify Activation Code
+              </button>
+            </form>
+          )}
+
+          {setupStep === 2 && (
+            <form onSubmit={handleSendActivationOtp} className="space-y-4 text-left">
+              <p className="text-xs text-dark-muted leading-relaxed">
+                Enter your corporate email address to receive an authentication passcode challenge.
+              </p>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-dark-text">Admin Email Address</label>
+                <input
+                  type="email"
+                  placeholder="admin@company.com"
+                  value={setupEmail}
+                  onChange={(e) => setSetupEmail(e.target.value)}
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 shadow-lg shadow-brand-500/10"
+              >
+                Send Verification Code
+              </button>
+            </form>
+          )}
+
+          {setupStep === 3 && (
+            <form onSubmit={handleVerifyActivationOtp} className="space-y-4 text-left">
+              <p className="text-xs text-dark-muted leading-relaxed">
+                Enter the 6-digit passcode sent to your inbox: <strong>{setupEmail}</strong>.
+              </p>
+
+              <div className="bg-[#232d45]/20 border border-emerald-500/20 rounded-xl p-3 text-xs leading-relaxed text-dark-muted flex items-start gap-2.5">
+                <span className="text-base">🔑</span>
+                <div>
+                  <span className="font-semibold text-emerald-400">Mail Simulator Passcode:</span>
+                  <p className="mt-0.5">Use passcode <code className="px-1.5 py-0.5 bg-emerald-500/10 border border-emerald-500/30 rounded text-emerald-300 font-bold text-[11px]">123456</code> to verify email ownership.</p>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-dark-text">Verification Passcode</label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  placeholder="e.g. 123456"
+                  value={activationOtpInput}
+                  onChange={(e) => setActivationOtpInput(e.target.value.replace(/\D/g, ''))}
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-white font-medium text-xs py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 mt-4 shadow-lg shadow-brand-500/10"
+              >
+                Verify OTP & Complete Setup
+              </button>
+            </form>
+          )}
+        </div>
       </Modal>
 
     </div>
