@@ -109,7 +109,7 @@ export const Login: React.FC = () => {
     setGeneratedActivationOtp(code);
     setActivationOtpInput('');
     setSetupStep(3);
-    toast.success(`🔑 [Secure Mail Simulator] Verification Passcode sent to ${setupEmail}: ${code}`);
+    toast.success('Verification passcode dispatched successfully.');
   };
 
   const handleVerifyActivationOtp = (e: React.FormEvent) => {
