@@ -331,11 +331,11 @@ The platform utilizes a modern serverless decoupled architecture:
 ## Update - 2026-07-09 (Documentation Overhaul)
 
 ### Files Created/Modified
-* **Root**: `README.md`, `API.md`, `Architecture.md`, `Contributing.md`, `Database.md`, `Deployment.md`, `Security.md`, `VIBE_CODING.md` [NEW]
+* **Root**: `README.md`, `API.md`, `Architecture.md`, `Contributing.md`, `Database.md`, `Deployment.md`, `Security.md`, `DEVELOPMENT_PARADIGM.md` [NEW]
 
 ### Changes
 * Overhauled all core markdown documentation files to be extremely detailed, accessible, and structured for both technical and non-technical readers.
-* Created the `VIBE_CODING.md` document to justify using the AI-assisted Vibe Coding paradigm and compare its efficiency, prototyping cycles, and value with traditional development methods.
+* Created the `DEVELOPMENT_PARADIGM.md` document containing the AI-native development case study and GRC educational disclaimer.
 
 ### Reason
 * Enforce clear system understanding, streamline employee onboarding, and record the innovative design methodology used.

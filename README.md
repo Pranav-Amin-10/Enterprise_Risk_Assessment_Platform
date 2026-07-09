@@ -99,6 +99,7 @@ Aegis GRC is built on a serverless decoupled stack designed to achieve ultra-fas
 │
 ├── package.json              # Monorepo workspaces coordinator
 ├── Project_Update.md         # Immutable changelog log file
+├── DEVELOPMENT_PARADIGM.md   # Modern engineering case study and educational disclaimer
 └── README.md                 # System overview and entry point documentation
 ```
 

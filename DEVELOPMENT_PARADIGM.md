@@ -1,6 +1,8 @@
 # Aegis GRC: Concept, Outcomes & AI-Native Development Paradigm
 
-This document presents the core concepts, architecture, and business outcomes of Aegis GRC, detailing the **AI-Native Development Paradigm** used to build and deploy the platform.
+> [!NOTE]
+> **Educational Purpose & Context Note:** 
+> This platform and its development case study are designed strictly for **educational purposes** to illustrate GRC (Governance, Risk, and Compliance) risk-analysis concepts and lightweight serverless database patterns. It is intended to help security students, auditors, and professionals conceptualize qualitative risk scoring, role-based scoping, and compliance logging, and is **not intended to be used as a guide or boilerplate for production software development practices.**
 
 ---
 
@@ -15,9 +17,9 @@ Traditional Governance, Risk, and Compliance (GRC) software packages (such as Se
 
 ---
 
-## ⚡ 2. AI-Native Development Paradigm
+## ⚡ 2. AI-Native Development Paradigm Case Study
 
-Aegis GRC was built utilizing the **AI-Native "Vibe Coding" Paradigm**—a state-of-the-art software engineering model that pairs a human pilot (handling high-level architecture, user experience, and visual validation) with an autonomous AI coding agent (managing file changes, typescript compiles, and test coverage).
+Aegis GRC was built utilizing the **AI-Native "Vibe Coding" Paradigm**—a software engineering model that pairs a human pilot (handling high-level architecture, user experience, and visual validation) with an autonomous AI coding agent (managing file changes, typescript compiles, and test coverage).
 
 Rather than relying on legacy, slow-moving development cycles, this model represents a shift in modern software development:
 
