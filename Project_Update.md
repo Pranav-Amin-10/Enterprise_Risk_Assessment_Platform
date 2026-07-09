@@ -282,6 +282,52 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Addressed user request to allow custom admin data (such as emails) to be entered during first-time setup while integrating **Firebase Auth** for registration, combining secure identity management with local storage simulation.
 
+## Update - 2026-07-06
+
+### Files Modified
+* `frontend/src/App.tsx`
+* `frontend/src/components/layout/Navbar.tsx`
+* `frontend/src/pages/Settings.tsx`
+* `frontend/src/store/useThemeStore.ts`
+* `frontend/src/index.css`
+
+### Changes
+* Fixed theme toggle buttons and layout styling consistency.
+* Implemented manual text density and font size scaling controls under Settings.
+* Fixed dark mode and high-contrast color scheme bugs across input fields, tables, and dropdowns.
+
+### Reason
+* Address user feedback regarding theme toggling failures, color contrast on highlight boxes, and visual sizing preferences.
+
+## Update - 2026-07-09
+
+### Files Modified
+* `frontend/src/App.tsx`
+* `frontend/src/components/layout/Navbar.tsx`
+* `frontend/src/components/layout/Sidebar.tsx`
+* `frontend/src/pages/AssetInventory.tsx`
+* `frontend/src/pages/RiskRegister.tsx`
+* `frontend/src/pages/RiskTreatment.tsx`
+* `frontend/src/pages/Settings.tsx`
+* `frontend/src/pages/ThreatLibrary.tsx`
+* `frontend/src/pages/VulnerabilityLibrary.tsx`
+* `frontend/src/utils/mockApi.ts`
+* `frontend/src/store/useThemeStore.ts`
+
+### Changes
+* Implemented full Role-Based Access Control (RBAC) routing, navigation filters, and read-only overrides for Viewer, CISO, Risk Manager, Auditor, Asset Owner, Risk Owner, and Department Head roles.
+* Configured CISO-only risk acceptance selection in the Risk Register.
+* Programmed dynamic department scoping logic for Department Heads, restricting assets, risks, treatments, and dashboard charts to their assigned organization branch.
+* Renamed branding to "AEGIS GRC" and cleaned up sidebar footer metadata.
+* Relocated layout version display to the top Navbar (`v1.3.0` release).
+* Enforced "Admin Mode" badge visibility exclusively for the `super_admin` role.
+* Adjusted global font-size base scale mapping to render at a comfortable visual default (`24.0px` root for a true `18px` body text).
+* Seeded a production-grade dataset containing 7 assets, 6 risks, and 3 treatments with correct `dueDate` properties.
+* Fixed dashboard metric calculations for Compliance Index, High Risks, Active Treatments, Risks by Department y-axis mapping, and the 5x5 ECharts Inherent Risk Heatmap.
+
+### Reason
+* Support comprehensive access controls, departmental operations, branding, layout refinement, and dashboard accuracy.
+
 ---
 
 # 4. AI Memory Purpose
