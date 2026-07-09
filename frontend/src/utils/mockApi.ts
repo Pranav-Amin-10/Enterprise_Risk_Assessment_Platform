@@ -309,9 +309,9 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
   // --- BOOTSTRAP CHECK ---
   if (path.endsWith('/api/setup/check')) {
     const savedVersion = localStorage.getItem('grc_mock_db_version');
-    if (savedVersion !== '1.2.0') {
+    if (savedVersion !== '1.3.0') {
       localStorage.removeItem('grc_mock_bootstrapped');
-      localStorage.setItem('grc_mock_db_version', '1.2.0');
+      localStorage.setItem('grc_mock_db_version', '1.3.0');
     }
     const isBootstrapped = localStorage.getItem('grc_mock_bootstrapped') === 'true';
     return new Response(JSON.stringify({ needsSetup: !isBootstrapped }), { status: 200 });
@@ -607,31 +607,42 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
     const closedRisks = risks.filter(r => r.status === 'closed').length;
     const acceptedRisks = risks.filter(r => r.status === 'accepted').length;
     const mitigatedRisks = risks.filter(r => r.status === 'mitigated').length;
-    const treatingRisks = risks.filter(r => r.status === 'treating').length;
     
     const closedOrAcceptedCount = closedRisks + acceptedRisks + mitigatedRisks;
     const complianceIndex = totalRisks > 0 ? Math.round((closedOrAcceptedCount / totalRisks) * 100) : 100;
+
+    // Calculate High & Critical Risks count
+    const highRisks = risks.filter(r => r.inherentScore >= 12).length;
+
+    // Calculate Active Treatments count
+    const treatments = getTable('treatments');
+    const scopedRiskIds = risks.map(r => r.id);
+    const activeTreatments = treatments.filter(t => 
+      scopedRiskIds.includes(t.riskId) && t.status === 'in_progress'
+    ).length;
 
     // Aggregation summary cards
     const summary = {
       totalRisks,
       openRisks: totalRisks - closedOrAcceptedCount,
-      treatingRisks,
+      treatingRisks: risks.filter(r => r.status === 'treating').length,
       mitigatedRisks: closedRisks + mitigatedRisks,
-      complianceIndex
+      complianceIndex,
+      highRisks,
+      activeTreatments
     };
 
-    // Construct risk heatmaps distribution
-    const heatmapCounts: Record<string, number> = {};
+    // Construct 5x5 inherent risk heatmap grid matrix (0-indexed for ECharts)
+    const inherent = Array.from({ length: 5 }, () => Array(5).fill(0));
     risks.forEach(r => {
-      const key = `${r.inherentLikelihood}-${r.inherentImpact}`;
-      heatmapCounts[key] = (heatmapCounts[key] || 0) + 1;
+      const lIdx = Math.min(Math.max(r.inherentLikelihood - 1, 0), 4);
+      const iIdx = Math.min(Math.max(r.inherentImpact - 1, 0), 4);
+      inherent[lIdx][iIdx] += 1;
     });
 
-    const heatmaps = Object.entries(heatmapCounts).map(([key, count]) => {
-      const [l, i] = key.split('-').map(Number);
-      return { likelihood: l, impact: i, count };
-    });
+    const heatmaps = {
+      inherent
+    };
 
     // Mapped risks by departments
     const deptCounts: Record<string, number> = {};
