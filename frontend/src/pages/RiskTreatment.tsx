@@ -11,7 +11,7 @@ export const RiskTreatment: React.FC = () => {
   const { user } = useAuthStore() as any;
   const queryClient = useQueryClient();
 
-  const isReadOnly = ['viewer', 'auditor'].includes(user?.role);
+  const isReadOnly = ['viewer', 'auditor', 'asset_owner', 'department_head'].includes(user?.role);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTreatment, setSelectedTreatment] = useState<any | null>(null);

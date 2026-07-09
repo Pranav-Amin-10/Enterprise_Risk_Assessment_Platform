@@ -11,7 +11,7 @@ export const RiskRegister: React.FC = () => {
   const { user } = useAuthStore() as any;
   const queryClient = useQueryClient();
 
-  const isReadOnly = ['viewer', 'auditor'].includes(user?.role);
+  const isReadOnly = ['viewer', 'auditor', 'department_head', 'asset_owner', 'risk_owner'].includes(user?.role);
 
   // Layout states
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -850,7 +850,9 @@ export const RiskRegister: React.FC = () => {
                 className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text focus:outline-none"
               >
                 <option value="mitigate">Mitigate (Implement Controls)</option>
-                <option value="accept">Accept (Formal Risk Acceptance)</option>
+                <option value="accept" disabled={!['super_admin', 'ciso'].includes(user?.role)}>
+                  Accept (Formal Risk Acceptance) {!['super_admin', 'ciso'].includes(user?.role) && ' [CISO Only]'}
+                </option>
                 <option value="transfer">Transfer (Insurance / Vendor)</option>
                 <option value="avoid">Avoid (Cancel business activity)</option>
               </select>
@@ -880,7 +882,9 @@ export const RiskRegister: React.FC = () => {
                 <option value="identified">Identified</option>
                 <option value="assessing">Assessing</option>
                 <option value="treating">Treating</option>
-                <option value="accepted">Accepted</option>
+                <option value="accepted" disabled={!['super_admin', 'ciso'].includes(user?.role)}>
+                  Accepted {!['super_admin', 'ciso'].includes(user?.role) && ' [CISO Only]'}
+                </option>
                 <option value="mitigated">Mitigated</option>
                 <option value="closed">Closed</option>
               </select>

@@ -11,7 +11,7 @@ export const AssetInventory: React.FC = () => {
   const { user } = useAuthStore() as any;
   const queryClient = useQueryClient();
 
-  const isReadOnly = ['viewer', 'auditor'].includes(user?.role);
+  const isReadOnly = ['viewer', 'auditor', 'ciso', 'risk_owner', 'department_head'].includes(user?.role);
 
   // States
   const [isModalOpen, setIsModalOpen] = useState(false);

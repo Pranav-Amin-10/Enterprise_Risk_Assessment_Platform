@@ -50,9 +50,14 @@ export const seedDemoStorage = (
 
   // 2. Seed default users directory
   const users = [
-    { id: 'mock-user-123', email: adminEmail, name: adminName, role: 'super_admin', status: 'active', password: 'password123' },
-    { id: 'mock-user-456', email: 'ciso@company.com', name: 'Chief Information Security Officer', role: 'ciso', status: 'active', password: 'password123' },
-    { id: 'mock-user-789', email: 'manager@company.com', name: 'Risk Assessment Manager', role: 'risk_manager', status: 'active', password: 'password123' },
+    { id: 'mock-user-123', email: adminEmail, name: adminName, role: 'super_admin', status: 'active', password: 'password123', departmentId: null },
+    { id: 'mock-user-456', email: 'ciso@company.com', name: 'Chief Information Security Officer', role: 'ciso', status: 'active', password: 'password123', departmentId: null },
+    { id: 'mock-user-789', email: 'manager@company.com', name: 'Risk Assessment Manager', role: 'risk_manager', status: 'active', password: 'password123', departmentId: null },
+    { id: 'mock-user-auditor', email: 'auditor@company.com', name: 'Internal Audit Lead', role: 'auditor', status: 'active', password: 'password123', departmentId: null },
+    { id: 'mock-user-asset', email: 'asset@company.com', name: 'IT Infrastructure Lead', role: 'asset_owner', status: 'active', password: 'password123', departmentId: 'org-infra' },
+    { id: 'mock-user-riskowner', email: 'riskowner@company.com', name: 'System Remediation Specialist', role: 'risk_owner', status: 'active', password: 'password123', departmentId: 'org-infra' },
+    { id: 'mock-user-depthead', email: 'depthead@company.com', name: 'VP Cloud Operations Operations', role: 'department_head', status: 'active', password: 'password123', departmentId: 'org-infra' },
+    { id: 'mock-user-viewer', email: 'viewer@company.com', name: 'Executive Compliance Viewer', role: 'viewer', status: 'active', password: 'password123', departmentId: null },
   ];
   saveTable('users', users);
 
@@ -160,6 +165,37 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
   // Delay helper to feel realistic
   await new Promise(resolve => setTimeout(resolve, 200));
 
+  const users = getTable('users');
+  const loggedInEmail = localStorage.getItem('grc_logged_in_user_email');
+  const currentUser = users.find(u => u.email === loggedInEmail) || users.find(u => u.role === 'super_admin');
+
+  // Helper functions to get scoped datasets for Department Head
+  const getScopedAssets = () => {
+    const allAssets = getTable('assets');
+    if (currentUser?.role === 'department_head' && currentUser?.departmentId) {
+      return allAssets.filter(a => a.departmentId === currentUser.departmentId);
+    }
+    return allAssets;
+  };
+
+  const getScopedRisks = () => {
+    const allRisks = getTable('risks');
+    if (currentUser?.role === 'department_head' && currentUser?.departmentId) {
+      const allowedAssetIds = getScopedAssets().map(a => a.id);
+      return allRisks.filter(r => allowedAssetIds.includes(r.assetId));
+    }
+    return allRisks;
+  };
+
+  const getScopedTreatments = () => {
+    const allTreatments = getTable('treatments');
+    if (currentUser?.role === 'department_head' && currentUser?.departmentId) {
+      const allowedRiskIds = getScopedRisks().map(r => r.id);
+      return allTreatments.filter(t => allowedRiskIds.includes(t.riskId));
+    }
+    return allTreatments;
+  };
+
   // --- BOOTSTRAP CHECK ---
   if (path.endsWith('/api/setup/check')) {
     const isBootstrapped = localStorage.getItem('grc_mock_bootstrapped') === 'true';
@@ -222,7 +258,8 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
         name: body.name,
         role: body.role || 'viewer',
         status: body.status || 'pending',
-        password: body.password || 'password123'
+        password: body.password || 'password123',
+        departmentId: body.departmentId || null
       };
       users.push(newUser);
       saveTable('users', users);
@@ -250,11 +287,11 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
     }
   }
 
-  // --- ASSETS INVENTORY ---
   if (path.endsWith('/api/assets')) {
     const assets = getTable('assets');
     if (method === 'GET') {
-      return new Response(JSON.stringify(assets), { status: 200 });
+      const scopedAssets = getScopedAssets();
+      return new Response(JSON.stringify(scopedAssets), { status: 200 });
     }
     if (method === 'POST') {
       let asset;
@@ -318,15 +355,14 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
     }
   }
 
-  // --- RISK REGISTER ---
   if (path.endsWith('/api/risks')) {
     const risks = getTable('risks');
-    const assets = getTable('assets');
-    
     if (method === 'GET') {
+      const scopedRisks = getScopedRisks();
+      const scopedAssets = getScopedAssets();
       // Map joined fields (assetName, assetCriticality)
-      const joinedRisks = risks.map(r => {
-        const asset = assets.find(a => a.id === r.assetId);
+      const joinedRisks = scopedRisks.map(r => {
+        const asset = scopedAssets.find(a => a.id === r.assetId);
         return {
           ...r,
           assetName: asset ? asset.name : 'Unknown Asset',
@@ -379,15 +415,14 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
     }
   }
 
-  // --- TREATMENTS PLAN ---
   if (path.endsWith('/api/treatments')) {
     const treatments = getTable('treatments');
-    const risks = getTable('risks');
     const users = getTable('users');
-    
     if (method === 'GET') {
-      const joinedTreatments = treatments.map(t => {
-        const risk = risks.find(r => r.id === t.riskId);
+      const scopedTreatments = getScopedTreatments();
+      const scopedRisks = getScopedRisks();
+      const joinedTreatments = scopedTreatments.map(t => {
+        const risk = scopedRisks.find(r => r.id === t.riskId);
         const owner = users.find(u => u.id === t.ownerId);
         return {
           ...t,
@@ -450,8 +485,8 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
 
   // --- DASHBOARD STATISTICS AGGREGATOR ---
   if (path.endsWith('/api/dashboard/stats')) {
-    const risks = getTable('risks');
-    const assets = getTable('assets');
+    const risks = getScopedRisks();
+    const assets = getScopedAssets();
 
     const totalRisks = risks.length;
     const closedRisks = risks.filter(r => r.status === 'closed').length;

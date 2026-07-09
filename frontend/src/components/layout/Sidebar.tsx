@@ -21,13 +21,13 @@ export const Sidebar: React.FC = () => {
   const role = user?.role || 'viewer';
 
   const menuItems = [
-    { name: 'Dashboard', path: '/', icon: LayoutDashboard, roles: ['*'] },
-    { name: 'Risk Register', path: '/risks', icon: ShieldAlert, roles: ['*'] },
-    { name: 'Asset Inventory', path: '/assets', icon: Server, roles: ['*'] },
-    { name: 'Threat Library', path: '/threats', icon: Skull, roles: ['*'] },
-    { name: 'Vulnerability Library', path: '/vulnerabilities', icon: Lock, roles: ['*'] },
-    { name: 'Treatment Plans', path: '/treatments', icon: Activity, roles: ['*'] },
-    { name: 'Reports Center', path: '/reports', icon: FileText, roles: ['*'] },
+    { name: 'Dashboard', path: '/', icon: LayoutDashboard, roles: ['super_admin', 'ciso', 'risk_manager', 'auditor', 'asset_owner', 'risk_owner', 'department_head', 'viewer'] },
+    { name: 'Risk Register', path: '/risks', icon: ShieldAlert, roles: ['super_admin', 'ciso', 'risk_manager', 'auditor', 'asset_owner', 'risk_owner', 'department_head'] },
+    { name: 'Asset Inventory', path: '/assets', icon: Server, roles: ['super_admin', 'asset_owner', 'risk_manager', 'department_head'] },
+    { name: 'Threat Library', path: '/threats', icon: Skull, roles: ['super_admin', 'risk_manager'] },
+    { name: 'Vulnerability Library', path: '/vulnerabilities', icon: Lock, roles: ['super_admin', 'risk_manager'] },
+    { name: 'Treatment Plans', path: '/treatments', icon: Activity, roles: ['super_admin', 'ciso', 'risk_manager', 'risk_owner'] },
+    { name: 'Reports Center', path: '/reports', icon: FileText, roles: ['super_admin', 'ciso', 'auditor'] },
     { name: 'Audit History', path: '/audit-logs', icon: History, roles: ['super_admin', 'ciso', 'auditor'] },
     { name: 'Settings & Org', path: '/settings', icon: Settings, roles: ['super_admin', 'ciso'] },
   ];

@@ -29,6 +29,7 @@ export const Settings: React.FC = () => {
   const [showUserPassword, setShowUserPassword] = useState(false);
   const [userRole, setUserRole] = useState<'super_admin' | 'ciso' | 'risk_manager' | 'auditor' | 'asset_owner' | 'risk_owner' | 'department_head' | 'viewer'>('viewer');
   const [userStatus, setUserStatus] = useState<'active' | 'locked' | 'pending'>('pending');
+  const [userDepartmentId, setUserDepartmentId] = useState('');
 
   // User Password Complexity Calculations
   const hasMinLength = userPassword.length >= 8;
@@ -223,6 +224,7 @@ export const Settings: React.FC = () => {
     setShowUserPassword(false);
     setUserRole('viewer');
     setUserStatus('pending');
+    setUserDepartmentId('');
     setIsUserModalOpen(true);
   };
 
@@ -234,6 +236,7 @@ export const Settings: React.FC = () => {
     setShowUserPassword(false);
     setUserRole(u.role);
     setUserStatus(u.status);
+    setUserDepartmentId(u.departmentId || '');
     setIsUserModalOpen(true);
   };
 
@@ -259,6 +262,7 @@ export const Settings: React.FC = () => {
         name: userName,
         role: userRole,
         status: userStatus,
+        departmentId: userRole === 'department_head' ? userDepartmentId : null
       };
       if (userPassword) {
         payload.password = userPassword;
@@ -275,6 +279,7 @@ export const Settings: React.FC = () => {
         role: userRole,
         status: userStatus,
         password: userPassword,
+        departmentId: userRole === 'department_head' ? userDepartmentId : null
       });
     }
   };
@@ -707,6 +712,23 @@ export const Settings: React.FC = () => {
               <option value="super_admin">Super Admin (Unrestricted platform management)</option>
             </select>
           </div>
+
+          {userRole === 'department_head' && (
+            <div className="space-y-1">
+              <label className="text-xs font-semibold text-dark-text">Assigned Department Scope</label>
+              <select
+                value={userDepartmentId}
+                onChange={(e) => setUserDepartmentId(e.target.value)}
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text focus:outline-none"
+                required
+              >
+                <option value="">Select Department</option>
+                {orgsList.filter(o => o.type === 'department').map(o => (
+                  <option key={o.id} value={o.id}>{o.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {selectedUser && (
             <div className="space-y-1">

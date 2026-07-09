@@ -119,23 +119,47 @@ export const App: React.FC = () => {
         {/* Dynamic Route Container */}
         <main className="flex-1 overflow-y-auto p-6 bg-dark-bg">
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/risks" element={<RiskRegister />} />
-            <Route path="/assets" element={<AssetInventory />} />
-            <Route path="/threats" element={<ThreatLibrary />} />
-            <Route path="/vulnerabilities" element={<VulnerabilityLibrary />} />
-            <Route path="/treatments" element={<RiskTreatment />} />
-            <Route path="/reports" element={<Reports />} />
-            
-            {/* CISO & Auditor Audit Logs */}
-            {['super_admin', 'ciso', 'auditor'].includes(user.role) && (
-              <Route path="/audit-logs" element={<AuditLogs />} />
-            )}
+             <Route path="/" element={<Dashboard />} />
+             
+             {/* Risks - everyone except viewer */}
+             {user.role !== 'viewer' && (
+               <Route path="/risks" element={<RiskRegister />} />
+             )}
 
-            {/* Admin/CISO Settings */}
-            {['super_admin', 'ciso'].includes(user.role) && (
-              <Route path="/settings" element={<Settings />} />
-            )}
+             {/* Assets */}
+             {['super_admin', 'asset_owner', 'risk_manager', 'department_head'].includes(user.role) && (
+               <Route path="/assets" element={<AssetInventory />} />
+             )}
+
+             {/* Threats */}
+             {['super_admin', 'risk_manager'].includes(user.role) && (
+               <Route path="/threats" element={<ThreatLibrary />} />
+             )}
+
+             {/* Vulnerabilities */}
+             {['super_admin', 'risk_manager'].includes(user.role) && (
+               <Route path="/vulnerabilities" element={<VulnerabilityLibrary />} />
+             )}
+
+             {/* Treatments */}
+             {['super_admin', 'ciso', 'risk_manager', 'risk_owner'].includes(user.role) && (
+               <Route path="/treatments" element={<RiskTreatment />} />
+             )}
+
+             {/* Reports */}
+             {['super_admin', 'ciso', 'auditor'].includes(user.role) && (
+               <Route path="/reports" element={<Reports />} />
+             )}
+             
+             {/* CISO & Auditor Audit Logs */}
+             {['super_admin', 'ciso', 'auditor'].includes(user.role) && (
+               <Route path="/audit-logs" element={<AuditLogs />} />
+             )}
+
+             {/* Admin/CISO Settings */}
+             {['super_admin', 'ciso'].includes(user.role) && (
+               <Route path="/settings" element={<Settings />} />
+             )}
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
