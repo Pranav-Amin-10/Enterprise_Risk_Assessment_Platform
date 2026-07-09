@@ -16,11 +16,11 @@ export const useThemeStore = create<ThemeState>((set) => {
   const applyFontSize = (size: 'sm' | 'md' | 'lg') => {
     const root = window.document.documentElement;
     if (size === 'sm') {
-      root.style.fontSize = '18.0px';
+      root.style.fontSize = '21.0px';
     } else if (size === 'md') {
-      root.style.fontSize = '20.0px'; 
+      root.style.fontSize = '23.5px'; 
     } else {
-      root.style.fontSize = '22.0px';
+      root.style.fontSize = '26.0px';
     }
   };
 
