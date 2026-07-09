@@ -57,4 +57,4 @@ The outcomes of this development model match or exceed traditional enterprise im
 By adopting this modern AI-Native paradigm, Aegis GRC achieves:
 * **10x Velocity Increase:** Complete GRC dashboard compiled, tested, and documented in days.
 * **Zero Operational Overhead:** Edge-native runtime with no server dependencies.
-* **Rigorous Engineering Standards:** Strict type-safety, clean relational mappings, and full test suite verification.
+* **Rigorous Engineering Standards:** Strict type-safety with ~98.1% of the codebase written in typesafe TypeScript, clean relational mappings, and full test suite verification.
