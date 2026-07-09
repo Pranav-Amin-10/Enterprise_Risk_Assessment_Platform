@@ -70,6 +70,10 @@ export const seedDemoStorage = (
     { id: 'a-01', assetId: 'AST-101', name: 'Oracle Production DB', type: 'database', criticality: 'critical', ciaConfidentiality: 3, ciaIntegrity: 3, ciaAvailability: 3, dataClassification: 'restricted', businessOwnerId: 'mock-user-456', technicalOwnerId: 'mock-user-123', departmentId: 'org-infra', description: 'Core financial transaction database.' },
     { id: 'a-02', assetId: 'AST-102', name: 'AWS S3 Static Attachments', type: 'cloud_storage', criticality: 'high', ciaConfidentiality: 2, ciaIntegrity: 3, ciaAvailability: 2, dataClassification: 'confidential', businessOwnerId: 'mock-user-789', technicalOwnerId: 'mock-user-123', departmentId: 'org-infra', description: 'Public attachments repository.' },
     { id: 'a-03', assetId: 'AST-103', name: 'Corporate HR Portal Server', type: 'application', criticality: 'medium', ciaConfidentiality: 3, ciaIntegrity: 2, ciaAvailability: 2, dataClassification: 'internal', businessOwnerId: 'mock-user-789', technicalOwnerId: 'mock-user-123', departmentId: 'org-hr', description: 'Internal employee record portal.' },
+    { id: 'a-04', assetId: 'AST-104', name: 'Active Directory Domain Controller', type: 'server', criticality: 'critical', ciaConfidentiality: 3, ciaIntegrity: 3, ciaAvailability: 3, dataClassification: 'restricted', businessOwnerId: 'mock-user-456', technicalOwnerId: 'mock-user-123', departmentId: 'org-infosec', description: 'Primary domain controller managing user authentication and security groups.' },
+    { id: 'a-05', assetId: 'AST-105', name: 'Customer Payment Gateway API', type: 'api', criticality: 'critical', ciaConfidentiality: 3, ciaIntegrity: 3, ciaAvailability: 3, dataClassification: 'restricted', businessOwnerId: 'mock-user-789', technicalOwnerId: 'mock-user-123', departmentId: 'org-infra', description: 'Public facing API endpoint integrating payment processing workflows.' },
+    { id: 'a-06', assetId: 'AST-106', name: 'Corporate Email Exchange Server', type: 'server', criticality: 'high', ciaConfidentiality: 3, ciaIntegrity: 2, ciaAvailability: 2, dataClassification: 'internal', businessOwnerId: 'mock-user-789', technicalOwnerId: 'mock-user-123', departmentId: 'org-infosec', description: 'Internal mail flow and collaboration exchange nodes.' },
+    { id: 'a-07', assetId: 'AST-107', name: 'GitHub Enterprise Repository', type: 'cloud_resource', criticality: 'medium', ciaConfidentiality: 2, ciaIntegrity: 3, ciaAvailability: 2, dataClassification: 'confidential', businessOwnerId: 'mock-user-789', technicalOwnerId: 'mock-user-123', departmentId: 'org-infosec', description: 'Repository hosting proprietary platform source code.' }
   ];
   saveTable('assets', assets);
 
@@ -117,6 +121,88 @@ export const seedDemoStorage = (
       controls: [
         { controlName: 'KMS policy binding', controlDescription: 'Enforce default KMS encryption policy', status: 'implemented' }
       ]
+    },
+    {
+      id: 'r-03',
+      riskId: 'RSK-103',
+      title: 'Weak Active Directory Password Complexity',
+      description: 'The primary Active Directory domain controller allows standard 8-character passwords without MFA enforcement.',
+      assetId: 'a-04',
+      threatId: 't-102', // Social engineering / Phishing
+      vulnerabilityId: 'v-203', // Weak password policies
+      inherentImpact: 4,
+      inherentLikelihood: 4,
+      inherentScore: 16, // Critical
+      residualImpact: 2,
+      residualLikelihood: 2,
+      residualScore: 4, // Low
+      treatmentStrategy: 'mitigate',
+      riskOwnerId: 'mock-user-789',
+      status: 'treating',
+      controls: [
+        { controlName: 'MFA integration', controlDescription: 'Deploy MFA for VPN gateway authentications', status: 'partially_implemented' }
+      ]
+    },
+    {
+      id: 'r-04',
+      riskId: 'RSK-104',
+      title: 'SQL Injection on Customer Payment API',
+      description: 'Payment API endpoints do not completely sanitize user input parameter fields, permitting unauthorized queries.',
+      assetId: 'a-05',
+      threatId: 't-104', // SQL injection
+      vulnerabilityId: 'v-204', // Missing input sanitization
+      inherentImpact: 5,
+      inherentLikelihood: 3,
+      inherentScore: 15, // Critical
+      residualImpact: 3,
+      residualLikelihood: 1,
+      residualScore: 3, // Low
+      treatmentStrategy: 'mitigate',
+      riskOwnerId: 'mock-user-123',
+      status: 'treating',
+      controls: [
+        { controlName: 'WAF ruleset bind', controlDescription: 'Apply OWASP Top 10 rules to Web Application Firewall', status: 'implemented' }
+      ]
+    },
+    {
+      id: 'r-05',
+      riskId: 'RSK-105',
+      title: 'Outdated Linux Kernel on Email Server',
+      description: 'The email exchange server operates on a deprecated OS version susceptible to privilege escalation exploits.',
+      assetId: 'a-06',
+      threatId: 't-101', // Ransomware
+      vulnerabilityId: 'v-202', // Outdated OS patching
+      inherentImpact: 3,
+      inherentLikelihood: 3,
+      inherentScore: 9, // Medium
+      residualImpact: 2,
+      residualLikelihood: 1,
+      residualScore: 2, // Low
+      treatmentStrategy: 'mitigate',
+      riskOwnerId: 'mock-user-789',
+      status: 'closed',
+      controls: [
+        { controlName: 'Monthly patch routine', controlDescription: 'Schedule kernel updates during weekend maintenance windows', status: 'implemented' }
+      ]
+    },
+    {
+      id: 'r-06',
+      riskId: 'RSK-106',
+      title: 'Missing MFA on GitHub Codebase Access',
+      description: 'Several developer accounts in the GitHub organization do not have mandatory two-factor authentication enabled.',
+      assetId: 'a-07',
+      threatId: 't-105', // Insider Threat
+      vulnerabilityId: 'v-203', // Weak password policies
+      inherentImpact: 4,
+      inherentLikelihood: 5,
+      inherentScore: 20, // Critical
+      residualImpact: 2,
+      residualLikelihood: 1,
+      residualScore: 2, // Low
+      treatmentStrategy: 'accept',
+      riskOwnerId: 'mock-user-456',
+      status: 'accepted',
+      controls: []
     }
   ];
   saveTable('risks', risks);
@@ -126,14 +212,38 @@ export const seedDemoStorage = (
     {
       id: 'tr-01',
       riskId: 'r-01',
-      description: 'Reconfigure firewall routes and bind adapters exclusively to secure AWS VPC subnets.',
+      description: 'Reconfigure firewall routes and bind database adapters exclusively to secure AWS VPC subnets.',
       ownerId: 'mock-user-123',
-      targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
       budget: 1500,
       progressPercent: 60,
-      status: 'active',
-      createdAt: timestamp,
-      updatedAt: timestamp,
+      status: 'in_progress',
+      createdAt: timestamp.toISOString(),
+      updatedAt: timestamp.toISOString(),
+    },
+    {
+      id: 'tr-02',
+      riskId: 'r-03',
+      description: 'Implement group policy objects (GPO) enforcing 12+ character lengths, history limits, and mandatory MFA.',
+      ownerId: 'mock-user-789',
+      dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString(),
+      budget: 3200,
+      progressPercent: 40,
+      status: 'in_progress',
+      createdAt: timestamp.toISOString(),
+      updatedAt: timestamp.toISOString(),
+    },
+    {
+      id: 'tr-03',
+      riskId: 'r-04',
+      description: 'Deploy parameterized queries across API database adapters and integrate static analysis (SAST) tools in CI/CD pipelines.',
+      ownerId: 'mock-user-123',
+      dueDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+      budget: 4500,
+      progressPercent: 80,
+      status: 'in_progress',
+      createdAt: timestamp.toISOString(),
+      updatedAt: timestamp.toISOString(),
     }
   ];
   saveTable('treatments', treatments);
@@ -198,6 +308,11 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
 
   // --- BOOTSTRAP CHECK ---
   if (path.endsWith('/api/setup/check')) {
+    const savedVersion = localStorage.getItem('grc_mock_db_version');
+    if (savedVersion !== '1.2.0') {
+      localStorage.removeItem('grc_mock_bootstrapped');
+      localStorage.setItem('grc_mock_db_version', '1.2.0');
+    }
     const isBootstrapped = localStorage.getItem('grc_mock_bootstrapped') === 'true';
     return new Response(JSON.stringify({ needsSetup: !isBootstrapped }), { status: 200 });
   }
@@ -490,14 +605,20 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
 
     const totalRisks = risks.length;
     const closedRisks = risks.filter(r => r.status === 'closed').length;
+    const acceptedRisks = risks.filter(r => r.status === 'accepted').length;
+    const mitigatedRisks = risks.filter(r => r.status === 'mitigated').length;
     const treatingRisks = risks.filter(r => r.status === 'treating').length;
     
+    const closedOrAcceptedCount = closedRisks + acceptedRisks + mitigatedRisks;
+    const complianceIndex = totalRisks > 0 ? Math.round((closedOrAcceptedCount / totalRisks) * 100) : 100;
+
     // Aggregation summary cards
     const summary = {
       totalRisks,
-      openRisks: totalRisks - closedRisks,
+      openRisks: totalRisks - closedOrAcceptedCount,
       treatingRisks,
-      mitigatedRisks: closedRisks
+      mitigatedRisks: closedRisks + mitigatedRisks,
+      complianceIndex
     };
 
     // Construct risk heatmaps distribution
@@ -527,7 +648,7 @@ export const handleMockRequest = async (url: string, init?: RequestInit): Promis
       }
     });
 
-    const risksByDepartment = Object.entries(deptCounts).map(([name, count]) => ({ departmentName: name, count }));
+    const risksByDepartment = Object.entries(deptCounts).map(([name, count]) => ({ department: name, count }));
 
     // Risks by asset type
     const typeCounts: Record<string, number> = {};
