@@ -10,17 +10,17 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>((set) => {
   // Read initial preferences from localStorage
   const savedTheme = (localStorage.getItem('grc_theme') as 'dark' | 'light') || 'dark';
-  const savedFontSize = (localStorage.getItem('grc_font_size') as 'sm' | 'md' | 'lg') || 'md';
+  const savedFontSize = (localStorage.getItem('grc_font_size') as 'sm' | 'md' | 'lg') || 'sm';
 
   // Apply font size style to HTML document element
   const applyFontSize = (size: 'sm' | 'md' | 'lg') => {
     const root = window.document.documentElement;
     if (size === 'sm') {
-      root.style.fontSize = '14.5px';
-    } else if (size === 'md') {
-      root.style.fontSize = '16.25px'; // Increased slightly as requested
-    } else {
       root.style.fontSize = '18.0px';
+    } else if (size === 'md') {
+      root.style.fontSize = '20.0px'; 
+    } else {
+      root.style.fontSize = '22.0px';
     }
   };
 

@@ -572,8 +572,8 @@ export const Settings: React.FC = () => {
                       : 'bg-[#232d45]/20 border-dark-border text-dark-muted hover:text-white'
                   }`}
                 >
-                  <div className="text-xs">Small</div>
-                  <div className="text-[9px] mt-0.5 opacity-80">14.5px Base</div>
+                  <div className="text-xs">Small (Default)</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">18.0px Base</div>
                 </button>
                 <button
                   type="button"
@@ -584,8 +584,8 @@ export const Settings: React.FC = () => {
                       : 'bg-[#232d45]/20 border-dark-border text-dark-muted hover:text-white'
                   }`}
                 >
-                  <div className="text-xs">Medium (Default)</div>
-                  <div className="text-[9px] mt-0.5 opacity-80">16.25px Base</div>
+                  <div className="text-xs">Medium</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">20.0px Base</div>
                 </button>
                 <button
                   type="button"
@@ -597,7 +597,7 @@ export const Settings: React.FC = () => {
                   }`}
                 >
                   <div className="text-xs">Large</div>
-                  <div className="text-[9px] mt-0.5 opacity-80">18.0px Base</div>
+                  <div className="text-[9px] mt-0.5 opacity-80">22.0px Base</div>
                 </button>
               </div>
             </div>
