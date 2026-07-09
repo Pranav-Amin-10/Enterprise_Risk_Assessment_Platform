@@ -41,7 +41,7 @@ export const Sidebar: React.FC = () => {
       {/* Brand logo */}
       <div className="h-16 px-6 border-b border-dark-border flex items-center gap-3">
         <ShieldIcon className="h-6 w-6 text-brand-500" />
-        <span className="font-bold text-dark-text text-base tracking-wider">PLATFORM GRC</span>
+        <span className="font-bold text-dark-text text-base tracking-wider">AEGIS GRC</span>
       </div>
 
       {/* Navigation List */}
@@ -66,12 +66,6 @@ export const Sidebar: React.FC = () => {
           );
         })}
       </nav>
-
-      {/* Footer metadata */}
-      <div className="p-4 border-t border-dark-border text-center">
-        <div className="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">Enterprise Mode</div>
-        <div className="text-[9px] text-gray-600 mt-0.5">v1.0.0 (Stable)</div>
-      </div>
     </aside>
   );
 };

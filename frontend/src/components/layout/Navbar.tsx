@@ -58,9 +58,9 @@ export const Navbar: React.FC = () => {
     <header className="h-16 border-b border-dark-border bg-dark-card/50 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-30">
       <div className="flex items-center gap-2">
         <h2 className="text-lg font-semibold text-dark-text tracking-wide">Enterprise Risk Assessment</h2>
-        {localStorage.getItem('grc_admin_mode') === 'true' && (
+        {user?.role === 'super_admin' && (
           <span className="px-2.5 py-0.5 text-[9px] bg-brand-500/15 text-brand-400 border border-brand-500/30 rounded-full font-bold uppercase tracking-wider animate-pulse shrink-0">
-            🛡️ Admin Mode (Local Sandbox)
+            🛡️ Admin Mode
           </span>
         )}
         {user?.isUnregistered && (
@@ -71,6 +71,11 @@ export const Navbar: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-4">
+        {/* Dynamic GRC Version */}
+        <span className="text-[10px] text-dark-muted font-bold bg-dark-border/30 px-2 py-0.5 rounded border border-dark-border select-none">
+          v1.2.0
+        </span>
+
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
