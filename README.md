@@ -6,7 +6,7 @@ Engineered to operate 100% free under Cloudflare's permanent free tiers, Aegis G
 
 ---
 
-## 📖 Plain English Overview (For Non-Technical Users)
+## 📖 Overview (For Non-Technical Users)
 
 ### What is GRC and Why Does It Matter?
 In any organization, managing security is not just about installing firewalls—it is about managing **risk**. Organizations must answer questions like:
