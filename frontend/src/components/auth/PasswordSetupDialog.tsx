@@ -133,7 +133,7 @@ export const PasswordSetupDialog: React.FC = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-dark-text focus:outline-none focus:border-brand-500"
                 required
               />
               <button
@@ -156,7 +156,7 @@ export const PasswordSetupDialog: React.FC = () => {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"
+                className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg pl-10 pr-10 py-2.5 text-sm text-dark-text focus:outline-none focus:border-brand-500"
                 required
               />
               <button

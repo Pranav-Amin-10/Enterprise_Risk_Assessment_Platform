@@ -237,7 +237,7 @@ export const Login: React.FC = () => {
         <button
           type="button"
           onClick={handleAdminModeClick}
-          className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-400 hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
+          className="w-full bg-[#232d45]/20 hover:bg-[#232d45]/45 border border-brand-500/30 hover:border-brand-500/60 text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold text-xs py-2.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-md"
         >
           <Shield className="h-4 w-4 text-brand-500 animate-pulse" />
           First Time Sign Up / Activate Platform
@@ -274,7 +274,7 @@ export const Login: React.FC = () => {
               }`}>
                 {setupStep > 1 ? '✓' : '1'}
               </span>
-              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 1 ? 'text-brand-400' : 'text-dark-muted'}`}>License</span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 1 ? 'text-brand-600 dark:text-brand-400' : 'text-dark-muted'}`}>License</span>
             </div>
             <div className="flex-1 h-0.5 mx-2 bg-dark-border/40 relative">
               <div className={`absolute inset-y-0 left-0 bg-brand-500 transition-all duration-300 ${setupStep > 1 ? 'w-full' : 'w-0'}`} />
@@ -289,7 +289,7 @@ export const Login: React.FC = () => {
               }`}>
                 {setupStep > 2 ? '✓' : '2'}
               </span>
-              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 2 ? 'text-brand-400' : 'text-dark-muted'}`}>Email</span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 2 ? 'text-brand-600 dark:text-brand-400' : 'text-dark-muted'}`}>Email</span>
             </div>
             <div className="flex-1 h-0.5 mx-2 bg-dark-border/40 relative">
               <div className={`absolute inset-y-0 left-0 bg-brand-500 transition-all duration-300 ${setupStep > 2 ? 'w-full' : 'w-0'}`} />
@@ -302,7 +302,7 @@ export const Login: React.FC = () => {
               }`}>
                 3
               </span>
-              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 3 ? 'text-brand-400' : 'text-dark-muted'}`}>Verify</span>
+              <span className={`text-[9px] font-bold tracking-wider uppercase ${setupStep === 3 ? 'text-brand-600 dark:text-brand-400' : 'text-dark-muted'}`}>Verify</span>
             </div>
           </div>
 
@@ -327,7 +327,7 @@ export const Login: React.FC = () => {
                   placeholder="e.g. GRC999"
                   value={productKey}
                   onChange={(e) => setProductKey(e.target.value.toUpperCase())}
-                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-dark-text focus:outline-none focus:border-brand-500 transition-colors"
                   required
                 />
               </div>
@@ -352,7 +352,7 @@ export const Login: React.FC = () => {
                   placeholder="admin@company.com"
                   value={setupEmail}
                   onChange={(e) => setSetupEmail(e.target.value)}
-                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-xs text-dark-text focus:outline-none focus:border-brand-500 transition-colors"
                   required
                 />
               </div>
@@ -387,7 +387,7 @@ export const Login: React.FC = () => {
                   placeholder="e.g. 123456"
                   value={activationOtpInput}
                   onChange={(e) => setActivationOtpInput(e.target.value.replace(/\D/g, ''))}
-                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-white focus:outline-none focus:border-brand-500 transition-colors"
+                  className="w-full bg-[#232d45]/20 border border-dark-border rounded-lg px-3 py-2.5 text-center text-sm font-bold tracking-widest text-dark-text focus:outline-none focus:border-brand-500 transition-colors"
                   required
                 />
               </div>
