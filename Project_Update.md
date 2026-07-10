@@ -342,6 +342,17 @@ The platform utilizes a modern serverless decoupled architecture:
 
 * Added notes regarding the codebase language density (~98.1% TypeScript representation) to `README.md` and `DEVELOPMENT_PARADIGM.md` to highlight typesafe engineering outcomes.
 
+## Update - 2026-07-10 (Career Showcase Added)
+
+### Files Created/Modified
+* **Root**: `CAREER_SHOWCASE.md` [NEW], `README.md`
+
+### Changes
+* Created `CAREER_SHOWCASE.md` containing ATS-optimized resume bullet points, LinkedIn project summaries, and key interview talking points to highlight Aegis GRC.
+
+### Reason
+* Help the user showcase the GRC platform's achievements on their professional profiles and during interviews.
+
 ---
 
 # 4. AI Memory Purpose
