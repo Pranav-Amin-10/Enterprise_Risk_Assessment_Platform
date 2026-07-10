@@ -171,14 +171,16 @@ export const Dashboard: React.FC = () => {
     tooltip: { trigger: 'item', formatter: '{a} <br/>{b}: {c} ({d}%)' },
     legend: {
       orient: 'vertical',
-      left: 'left',
-      textStyle: { color: '#9ca3af' },
+      left: '5%',
+      top: 'middle',
+      textStyle: { color: '#9ca3af', fontSize: 10 },
     },
     series: [
       {
         name: 'Assets Categories',
         type: 'pie',
         radius: ['40%', '70%'],
+        center: ['65%', '50%'],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 8,
