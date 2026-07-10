@@ -6,17 +6,13 @@ This document provides copy-pasteable text blocks designed to showcase your work
 
 ## 📄 1. ATS-Optimized Resume Section
 
-### Project / Experience Entry
-**Aegis GRC — Lead Software Engineer & Architect**
-*Tech Stack: React 18, TypeScript (98% codebase density), Hono API Framework, Cloudflare Workers, Cloudflare D1 (SQLite), Zustand, TanStack Query, ECharts, Firebase Auth*
-
-* Architected and deployed **Aegis GRC**, a serverless Governance, Risk, and Compliance (GRC) platform running entirely on Cloudflare Workers and D1 SQLite, achieving **₹0 database hosting and software licensing costs**.
-* Implemented a comprehensive **Role-Based Access Control (RBAC) authorization grid** and dynamic database scoping, securing data isolation and UI visibility for 7 distinct enterprise roles (including CISO, Auditor, and Department Head).
-* Developed an **offline fallback database simulator interceptor** (`mockApi.ts`) that redirects network requests to browser storage (`localStorage`), enabling zero-configuration offline execution.
-* Engineered a **5x5 interactive risk heatmap visualization** utilizing Apache ECharts, aggregating risk density distributions dynamically based on Likelihood and Impact matrices.
-* Built **browser-side document exporters** using `jspdf` and `exceljs` to generate styled compliance reports on client threads, reducing server bandwidth usage to zero.
-* Programmed edge-native **stateless JWT validation** in Hono utilizing Google’s public JSON Web Key Sets (JWKS) certificates, securing API endpoints from token-tampering exploits.
-* Integrated an **immutable append-only audit trail database ledger** capturing system-wide modifications (CORS validation, user pre-registrations, and uploads) to satisfy audit requirements.
+### Resume Project Entry Block (Copy & Paste)
+**Aegis GRC Platform | Academic/Self-Directed Project**		*May 2026 - July 2026*
+* Designed and developed a serverless, web-based platform to simulate enterprise GRC (Governance, Risk, and Compliance) workflows, qualitative risk scoring matrices, and department scoping for educational purposes.
+* Implemented structured role-based access controls (RBAC) and dynamic data isolation scopes for 7 distinct security roles, featuring interactive 5x5 ECharts risk heatmaps and an append-only compliance audit ledger.
+* Applied typesafe TypeScript and client-side scripts to automate styled PDF/Excel compliance report generation and localStorage database simulation workflows.
+* **Stack**: React, TypeScript, Hono API Worker, Cloudflare D1 (SQLite), GRC Methodology, Security Reporting
+* **Project Demo Link**: `https://enterprise-risk-assessment-platform.pages.dev/`
 
 ---
 
