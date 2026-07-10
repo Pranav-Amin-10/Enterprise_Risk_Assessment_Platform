@@ -21,6 +21,13 @@ This document provides copy-pasteable text blocks designed to showcase your work
 ### Project Section
 **Aegis GRC — Serverless Risk & Compliance Engineering Platform**
 
+#### 📝 Short Project Description (For LinkedIn Summary Box)
+> A serverless, edge-native GRC (Governance, Risk, and Compliance) platform built on Cloudflare Workers and D1 SQLite to map enterprise assets, threat libraries, and vulnerabilities, featuring a browser-side fallback database simulator for zero-setup offline testing.
+
+#### ⚙️ Associated Skills (To Tag on LinkedIn)
+* React.js, TypeScript, Cloudflare Workers, Hono, SQLite, Drizzle ORM, RESTful APIs, JSON Web Tokens (JWT), Apache ECharts, Governance, Risk, and Compliance (GRC), Software Architecture, Cybersecurity.
+
+#### 📄 Full Project Description
 Aegis GRC is a lightweight, edge-native Governance, Risk, and Compliance (GRC) platform built to manage information asset inventories, catalog cyber threat libraries, track vulnerabilities, and map corrective remediation plans.
 
 To bypass the high database fees and complex configuration requirements of traditional GRC suites, the platform is engineered to run entirely on serverless edge runtimes (Cloudflare Pages + Workers + D1 SQLite database), operating **completely free of cost** under Cloudflare's free tiers.

@@ -351,6 +351,7 @@ The platform utilizes a modern serverless decoupled architecture:
 * Created `CAREER_SHOWCASE.md` containing ATS-optimized resume bullet points, LinkedIn project summaries, and key interview talking points to highlight Aegis GRC.
 * Customized the resume block format in `CAREER_SHOWCASE.md` to precisely match the user's specific resume layout example style.
 * Repositioned ECharts legend and series center inside the dashboard doughnut chart to prevent overlapping on larger layout scales.
+* Added a **Short Project Description** and an **Associated Skills List** under the LinkedIn section of `CAREER_SHOWCASE.md`.
 
 ### Reason
 * Help the user showcase the GRC platform's achievements on their professional profiles and during interviews, and optimize dashboard chart layout proportions.
