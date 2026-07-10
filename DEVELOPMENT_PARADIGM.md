@@ -4,7 +4,7 @@
 > **Note:** 
 > This platform and its development case study are designed strictly for **educational purposes** to illustrate GRC (Governance, Risk, and Compliance) risk-analysis concepts and lightweight serverless database patterns. It is intended to help security students, auditors, and professionals conceptualize qualitative risk scoring, role-based scoping, and compliance logging, and is **not intended to be used as a guide or boilerplate for production software development practices.**
 
-**Live Educational Demo Sandbox:** [https://enterprise-risk-assessment-platform.pages.dev/](https://enterprise-risk-assessment-platform.pages.dev/)
+**Demo:** [https://enterprise-risk-assessment-platform.pages.dev/](https://enterprise-risk-assessment-platform.pages.dev/)
 
 ---
 
