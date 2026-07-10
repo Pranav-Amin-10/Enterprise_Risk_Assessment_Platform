@@ -42,6 +42,8 @@ To bypass the high database fees and complex configuration requirements of tradi
 
 *#GRC #Serverless #CloudflareWorkers #ReactJS #TypeScript #Cybersecurity #WebDevelopment #SoftwareArchitecture*
 
+* **Project Demo Link:** https://enterprise-risk-assessment-platform.pages.dev/
+
 ---
 
 ## 🗣️ 3. Key Interview Talking Points

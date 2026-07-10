@@ -4,6 +4,8 @@ Aegis GRC is a professional-grade, serverless Governance, Risk, and Compliance (
 
 Engineered to operate 100% free under Cloudflare's permanent free tiers, Aegis GRC provides Fortune 500 scalability, enterprise security, and auditable compliance with zero paid dependencies and zero recurring software licensing fees.
 
+**Live Project Demo:** [https://enterprise-risk-assessment-platform.pages.dev/](https://enterprise-risk-assessment-platform.pages.dev/)
+
 ---
 
 ## 📖 Overview (For Non-Technical Users)

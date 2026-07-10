@@ -356,6 +356,8 @@ The platform utilizes a modern serverless decoupled architecture:
 ### Reason
 * Help the user showcase the GRC platform's achievements on their professional profiles and during interviews, and optimize dashboard chart layout proportions.
 
+* Added the live project demo link (`https://enterprise-risk-assessment-platform.pages.dev/`) into `README.md`, `DEVELOPMENT_PARADIGM.md`, and `CAREER_SHOWCASE.md`.
+
 ---
 
 # 4. AI Memory Purpose
