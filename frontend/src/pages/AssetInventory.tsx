@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/useAuthStore';
-import { Plus, Edit2, Trash2, ShieldAlert, Tag, Filter, Search, Calendar } from 'lucide-react';
+import { Plus, Edit2, Trash2, ShieldAlert, Tag, Filter, Search, Calendar, Building } from 'lucide-react';
 import { Modal } from '../components/ui/Modal';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { toast } from '../store/useToastStore';
@@ -246,8 +246,11 @@ export const AssetInventory: React.FC = () => {
       (asset.tags && asset.tags.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesType = filterType === 'all' || asset.type === filterType;
     const matchesCriticality = filterCriticality === 'all' || asset.criticality === filterCriticality;
+    const matchesDepartment = user?.role === 'department_head' && user?.departmentId
+      ? asset.departmentId === user.departmentId
+      : true;
 
-    return matchesSearch && matchesType && matchesCriticality;
+    return matchesSearch && matchesType && matchesCriticality && matchesDepartment;
   });
 
   return (
@@ -269,6 +272,16 @@ export const AssetInventory: React.FC = () => {
           </button>
         )}
       </div>
+
+      {/* Department Head Scope Notice */}
+      {user?.role === 'department_head' && (
+        <div className="flex items-center gap-3 p-3.5 bg-blue-500/10 border border-blue-500/30 rounded-xl text-xs text-blue-300">
+          <Building className="h-4 w-4 text-blue-400 shrink-0" />
+          <span>
+            <strong>Department Scope Active:</strong> Viewing assets scoped to <strong>Finance & Accounting</strong> ({user.departmentId || 'org-fin-03'}). Department Heads have restricted visibility over their unit's inventory.
+          </span>
+        </div>
+      )}
 
       {/* Advanced Filters Block */}
       <div className="bg-dark-card border border-dark-border p-4 rounded-xl shadow-sm flex flex-col md:flex-row gap-4 items-center">

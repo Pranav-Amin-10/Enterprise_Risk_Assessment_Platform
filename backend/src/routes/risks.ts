@@ -22,6 +22,7 @@ risksRouter.get('/', async (c) => {
       assetId: risks.assetId,
       assetName: assets.name,
       assetCriticality: assets.criticality,
+      departmentId: assets.departmentId,
       threatId: risks.threatId,
       threatName: threats.name,
       vulnerabilityId: risks.vulnerabilityId,

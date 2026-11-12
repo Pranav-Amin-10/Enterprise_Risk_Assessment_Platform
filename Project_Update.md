@@ -401,6 +401,49 @@ The platform utilizes a modern serverless decoupled architecture:
 
 ---
 
+## Update - 2026-11-12 (Role Preview Switcher & Scoped RBAC Exploration)
+
+### Files Created/Modified
+* **Backend**:
+  * `backend/src/routes/risks.ts` (Included `departmentId: assets.departmentId` in `risksRouter.get('/')` query for departmental scoping)
+* **Frontend**:
+  * `frontend/src/store/useAuthStore.ts` (Added `GrcRole` union, `PreviewRoleInfo`, persona registry for 7 roles, and state management for preview mode with `sessionStorage` persistence)
+  * `frontend/src/components/layout/Navbar.tsx` (Implemented quick Role Preview switcher dropdown, active role banner with 1-click Exit Preview action, and user profile preview tags)
+  * `frontend/src/pages/AssetInventory.tsx` (Added department-level filtering and informational scope banner when viewing as `department_head`)
+  * `frontend/src/pages/RiskRegister.tsx` (Added department-level filtering and informational scope banner when viewing as `department_head`)
+* **Documentation**:
+  * `Project_Update.md` (Documented Role Preview implementation, persona definitions, and deployment status)
+
+### Changes
+* **Role Preview Switcher Implementation**:
+  * Designed and built an in-app **Role Preview Switcher** accessible directly from the top navigation bar for Super Admins and active previewers.
+  * Supported 7 distinct stakeholder viewpoints without needing to create or authenticate as separate Firebase accounts:
+    1. **Viewer**: Read-only GRC Dashboard access (*Rachel Green*).
+    2. **CISO**: Complete Policy, Risk Accept, and Log audits (*Sarah Chen, InfoSec & Compliance*).
+    3. **Risk Manager**: Assess risks, controls, and treatments (*Marcus Vance, InfoSec & Compliance*).
+    4. **Auditor**: Independent log auditing and read-only reviews (*Elena Rostova, External Audit*).
+    5. **Asset Owner**: Owns information systems inventory (*David Kim, Information Technology*).
+    6. **Risk Owner**: Mitigates and treats assigned risk items (*Alicia Mendez, Product & Engineering*).
+    7. **Department Head**: View department scope only (*Robert Sterling, Finance & Accounting*).
+* **Super Admin Safety & Session Preservation**:
+  * Preserved the real authenticated Super Admin account (`pranavamin.work@hotmail.com`) in state.
+  * Added a prominent amber Navbar banner (`👁️ Previewing as: [Role]`) with an immediate **"Exit Preview"** button restoring full Super Admin privileges with a single click.
+  * Synchronized preview state to `sessionStorage` (`grc_preview_role`) so page reloads maintain the active role perspective without losing state.
+* **Granular Scoped Visibility for Department Head**:
+  * Configured `AssetInventory.tsx` and `RiskRegister.tsx` to automatically filter assets and risks to the user's assigned department (`org-fin-03`, Finance & Accounting) when previewing as Department Head.
+  * Added visual alert banners informing the user that department-scoped filtering is actively applied.
+* **Production Deployment**:
+  * Backend API Worker deployed to Cloudflare Workers (`Version ID: 51e94adf-b580-4b28-b7e5-ce7ac648907f`).
+  * Frontend built and deployed to Cloudflare Pages (`enterprise-risk-assessment-platform.pages.dev`).
+
+### Reason
+* Satisfies user request #9 to allow immediate exploration, evaluation, and practice of the application from all 7 GRC role perspectives without manually creating or toggling multiple Firebase authentication accounts, while preserving real user creation and role assignment capabilities in Settings.
+
+### Dependencies Added/Removed
+* None. Maintained 100% test pass rate across backend and frontend suites.
+
+---
+
 # 4. AI Memory Purpose
 This document acts as the single source of truth for the project. Future AI systems should read this file to immediately comprehend the codebase structure, bindings, routing protocols, and histories without having to run expensive directory parses.
 
