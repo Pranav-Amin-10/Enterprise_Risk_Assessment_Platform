@@ -2,13 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDuSUjSISpJ6X_suAJHdQIeEd8vtRytRcQ",
-  authDomain: "enterprise-risk-assessme-96510.firebaseapp.com",
-  projectId: "enterprise-risk-assessme-96510",
-  storageBucket: "enterprise-risk-assessme-96510.firebasestorage.app",
-  messagingSenderId: "583762395201",
-  appId: "1:583762395201:web:30cf4516e677175f1186c0",
-  measurementId: "G-JCKEKJYJ5W"
+  apiKey: "AIzaSyDrpdkpCBVQEvMqzJYbetZHHcvuUg6HbRc",
+  authDomain: "personal-projects-82ee7.firebaseapp.com",
+  projectId: "personal-projects-82ee7",
+  storageBucket: "personal-projects-82ee7.firebasestorage.app",
+  messagingSenderId: "167410186431",
+  appId: "1:167410186431:web:0bd2d66d5534b26e436e0a",
+  measurementId: "G-5LJCE13QJV"
 };
 
 // Initialize Firebase App

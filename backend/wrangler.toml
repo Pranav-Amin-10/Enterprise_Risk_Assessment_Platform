@@ -4,7 +4,7 @@ compatibility_date = "2024-05-29"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-FIREBASE_PROJECT_ID = "enterprise-risk-assessme-96510"
+FIREBASE_PROJECT_ID = "personal-projects-82ee7"
 
 [[d1_databases]]
 binding = "DB"

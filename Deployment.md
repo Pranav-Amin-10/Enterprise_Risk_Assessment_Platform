@@ -62,7 +62,7 @@ Deploy the backend Workers API script to Cloudflare:
 npm run deploy:backend
 ```
 > [!NOTE]
-> Wrangler automatically binds the Firebase Project ID (`enterprise-risk-assessme-96510`) as a public environment variable during the deployment task. You do not need to run manual wrangler secret commands.
+> Wrangler automatically binds the Firebase Project ID (`personal-projects-82ee7`) as a public environment variable during the deployment task. You do not need to run manual wrangler secret commands.
 
 ### Step 4: Deploy the React Frontend via Cloudflare Pages
 Deploy the client frontend using the Cloudflare Dashboard Web UI:
