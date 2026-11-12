@@ -358,6 +358,47 @@ The platform utilizes a modern serverless decoupled architecture:
 
 * Added the live project demo link (`https://enterprise-risk-assessment-platform.pages.dev/`) into `README.md`, `DEVELOPMENT_PARADIGM.md`, and `CAREER_SHOWCASE.md`.
 
+## Update - 2026-11-12 (Cloudflare Analysis, Firebase Unification, Auth Overhaul & Practice Dataset Population)
+
+### Files Created/Modified
+* **Backend**:
+  * `backend/wrangler.toml` (Updated `FIREBASE_PROJECT_ID` to `personal-projects-82ee7`)
+  * `backend/src/middleware/auth.ts` (Implemented first-user auto-bootstrap for `super_admin`, case-insensitive email claim, and seed library integration)
+  * `backend/src/db/comprehensive_seed.sql` [NEW] (Comprehensive SQL dataset seeding 229 rows across 11 tables)
+* **Frontend**:
+  * `frontend/src/services/firebase.ts` (Configured 2nd Web App under unified Firebase project `personal-projects-82ee7`)
+  * `frontend/src/pages/Login.tsx` (Streamlined to clean enterprise email/password login, removed activation wizard/demo modals, preserved "Access Pending Role Assignment" security guard)
+  * `frontend/src/main.tsx` (Configured fallback to live Cloudflare Worker API to prevent Pages HTML fallback on API routes)
+  * `frontend/src/store/useAuthStore.ts` (Added defensive JSON error-handling for session sync and setup checks)
+  * `frontend/.env` [NEW] & `frontend/.env.production` [NEW] (Configured `VITE_API_URL` targeting live Worker)
+* **Documentation**:
+  * `Deployment.md` (Updated Firebase project ID reference)
+  * `Project_Update.md` (Updated chronological change logs)
+
+### Changes
+* **Cloudflare Account Audit**: Identified and inspected the active hosting account (`Aminpranav@hotmail.com's Account`, ID `82d56c1a4ac895297c0f858fb52e9595`), verifying Cloudflare Pages (`enterprise-risk-assessment-platform`), Worker API (`enterprise-risk-assessment-api`), and D1 database (`df0862eb-024a-422c-8021-f176ba08c371`, APAC/Singapore).
+* **Firebase Architecture Unification**: Linked the platform to the user's unified Firebase project (`personal-projects-82ee7`), sharing the user directory with their portfolio application so existing user credentials can log in directly without duplicate registration.
+* **Authentication & RBAC Streamlining**: Enforced strict enterprise authentication where all user accounts are provisioned via the authentication provider, eliminating public account creation from the UI while keeping automated password recovery (`/forgot-password`, `/reset-password`).
+* **Resolved Login Redirect Issue**: Fixed an issue where API calls to the Pages domain returned static HTML, causing JSON parsing failures that prevented session initialization. Defaulted all API requests to the live Cloudflare Worker API (`https://enterprise-risk-assessment-api.aminpranav.workers.dev`).
+* **Automated Initial Super Admin Bootstrap**: Updated the edge auth middleware to automatically promote the very first authenticated user (`pranavamin.work@hotmail.com`) to `super_admin` in D1, initializing the base organization node and seeding baseline threats/vulnerabilities.
+* **Comprehensive Practice & Study Dataset**: Generated and executed `comprehensive_seed.sql` on the live Cloudflare D1 database:
+  * **Organizations**: 7 units (Enterprise Organization, IT, Security & Compliance SOC, Finance, Product Engineering, HR & Legal, Cloud DevOps).
+  * **Team Users & Roles**: 8 realistic personas mapping the 8 GRC profiles (Super Admin, CISO, Risk Manager, Auditor, Asset Owner, Risk Owner, Department Head, Viewer).
+  * **Asset Inventory**: 8 critical assets ($1.16M asset valuation) with CIA Triad scores (1-3) and classifications.
+  * **Threat & Vulnerability Libraries**: 12 master cyber threats and 12 real-world vulnerabilities.
+  * **Risk Register & Scoring**: 9 comprehensive risk scenarios distributed across the 5x5 heatmap with Inherent ($Impact \times Likelihood$) and Residual scoring, linked controls, and treatment strategies (`mitigate`, `accept`, `transfer`, `avoid`).
+  * **Risk Controls**: 12 preventive and detective controls (WORM backups, YubiKey FIDO2, Cloudflare WAF, CrowdStrike EDR, GitGuardian scanning).
+  * **Treatment Pipeline**: 7 active remediation projects tracking budgets ($114,500 total) and progress percentages (20% to 100%).
+  * **Audit History Ledger**: 7 immutable activity records tracking user sessions, risk assessments, and formal CISO approvals.
+  * **In-App Notifications**: 4 unread alerts for quarterly reviews, milestone achievements, and assignments.
+* **Production Deployments**: Rebuilt and deployed both the frontend to Cloudflare Pages (`enterprise-risk-assessment-platform.pages.dev`) and backend Worker to Cloudflare Workers (`Version ID: cca87b62-27bf-4cd9-a879-af59acfcad6c`).
+
+### Reason
+* Transition authentication to the unified multi-app Firebase project, resolve session bootstrap edge cases, eliminate non-enterprise registration UI elements, and populate rich, realistic GRC data across all platform modules for hands-on study and practice.
+
+### Dependencies Added/Removed
+* None. All dependencies verified and passing unit tests.
+
 ---
 
 # 4. AI Memory Purpose
