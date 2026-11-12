@@ -57,13 +57,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     // Check if platform database needs setup first
     fetch('/api/setup/check')
-      .then(res => res.json())
+      .then(async (res) => {
+        if (!res.ok) return { needsSetup: false };
+        const data = await res.json();
+        return data;
+      })
       .then(data => {
-        if (data.needsSetup) {
+        if (data && data.needsSetup) {
           set({ needsSetup: true, loading: false });
         }
       })
-      .catch(err => console.error('Setup check failed:', err));
+      .catch(err => console.warn('Setup check skipped:', err));
 
     // Subscribe to Firebase auth changes
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
@@ -85,11 +89,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
             set({ user: profile, token, needsSetup: false, loading: false, initialized: true });
           } else if (res.status === 401) {
             // User authenticated in Firebase, but profile not in D1.
-            // Check setup check again in case we are in the middle of bootstrap.
-            const setupRes = await fetch('/api/setup/check');
-            const setupData = await setupRes.json();
+            let needsBootstrap = false;
+            try {
+              const setupRes = await fetch('/api/setup/check');
+              if (setupRes.ok) {
+                const setupData = await setupRes.json();
+                needsBootstrap = !!setupData.needsSetup;
+              }
+            } catch (e) {
+              console.warn('Setup check error:', e);
+            }
             
-            if (setupData.needsSetup) {
+            if (needsBootstrap) {
               set({
                 user: {
                   id: firebaseUser.uid,
@@ -109,7 +120,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
                 user: {
                   id: firebaseUser.uid,
                   email: firebaseUser.email || '',
-                  name: firebaseUser.displayName || 'Unregistered User',
+                  name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Unregistered User',
                   role: 'viewer',
                   status: 'pending',
                   isUnregistered: true

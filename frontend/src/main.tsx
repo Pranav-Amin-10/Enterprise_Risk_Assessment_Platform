@@ -5,7 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './index.css';
 
-// Intercept global fetch to prefix with VITE_API_URL if configured in production, or simulate via mock database
+// Default live Cloudflare Worker API URL
+const CLOUDFLARE_WORKER_API = 'https://enterprise-risk-assessment-api.aminpranav.workers.dev';
+
+// Intercept global fetch to prefix with live API worker URL or simulate via mock database
 const originalFetch = window.fetch;
 window.fetch = async (input, init) => {
   const isAdminMode = localStorage.getItem('grc_admin_mode') === 'true';
@@ -18,15 +21,16 @@ window.fetch = async (input, init) => {
 
   let url = input;
   if (typeof input === 'string' && input.startsWith('/api')) {
-    const apiBase = import.meta.env.VITE_API_URL || '';
+    const apiBase = import.meta.env.VITE_API_URL || CLOUDFLARE_WORKER_API;
     url = `${apiBase}${input}`;
   }
 
   try {
     const response = await originalFetch(url, init);
     
-    // Fallback if backend server returns an error or 404 on configuration status check
-    if (urlPath.endsWith('/api/setup/check') && !response.ok) {
+    // Check if a request to /api returned an unexpected HTML SPA page
+    const contentType = response.headers.get('content-type') || '';
+    if (urlPath.startsWith('/api') && contentType.includes('text/html') && !response.ok) {
       console.warn('API Worker connection check failed. Falling back to Browser Admin Storage.');
       localStorage.setItem('grc_admin_mode', 'true');
       const { handleMockRequest } = await import('./utils/mockApi');

@@ -1,7 +1,8 @@
 import { jwtVerify, createRemoteJWKSet } from 'jose';
 import type { MiddlewareHandler } from 'hono';
 import { getDb } from '../db';
-import { users } from '../db/schema';
+import { users, organizations, threats, vulnerabilities } from '../db/schema';
+import { defaultThreats, defaultVulnerabilities } from '../db/seedData';
 import { eq } from 'drizzle-orm';
 
 export interface Env {
@@ -66,16 +67,83 @@ export const authMiddleware = (): MiddlewareHandler<{ Bindings: Env; Variables: 
       // 2. Look up user by UID (standard session check)
       let dbUser = await db.select().from(users).where(eq(users.id, uid)).get();
       
-      // 3. If not found by UID, perform Registration Claiming check by email
+      // 3. If not found by UID, perform Registration Claiming check by email (case-insensitive)
       if (!dbUser) {
-        const dbUserByEmail = await db.select().from(users).where(eq(users.email, email)).get();
+        const dbUserByEmail = await db.select().from(users).where(eq(users.email, email.toLowerCase())).get();
         if (dbUserByEmail) {
           // Bind the Firebase UID to the existing pre-created D1 record
           await db.update(users)
             .set({ id: uid, status: 'active', updatedAt: new Date() })
-            .where(eq(users.email, email));
+            .where(eq(users.email, email.toLowerCase()));
           
           // Re-query to confirm update
+          dbUser = await db.select().from(users).where(eq(users.id, uid)).get();
+        }
+      }
+
+      // 4. AUTO-BOOTSTRAP FIRST USER:
+      // If the D1 database currently has 0 users, automatically register this first authenticated Firebase user as Super Admin!
+      if (!dbUser) {
+        const existingUsers = await db.select({ id: users.id }).from(users).all();
+        if (existingUsers.length === 0) {
+          const now = new Date();
+          const adminName = (payload.name as string) || email.split('@')[0] || 'Super Admin';
+          
+          await db.insert(users).values({
+            id: uid,
+            email: email.toLowerCase(),
+            name: adminName,
+            role: 'super_admin',
+            status: 'active',
+            createdAt: now,
+            updatedAt: now,
+          });
+
+          // Ensure base company organization exists
+          const existingOrgs = await db.select({ id: organizations.id }).from(organizations).all();
+          if (existingOrgs.length === 0) {
+            await db.insert(organizations).values({
+              id: crypto.randomUUID(),
+              name: 'Enterprise Organization',
+              type: 'company',
+              location: 'Headquarters',
+              createdAt: now,
+              updatedAt: now,
+            });
+          }
+
+          // Seed default threats
+          const existingThreats = await db.select({ id: threats.id }).from(threats).all();
+          if (existingThreats.length === 0) {
+            for (const t of defaultThreats) {
+              await db.insert(threats).values({
+                id: crypto.randomUUID(),
+                threatId: t.threatId,
+                name: t.name,
+                description: t.description,
+                category: t.category,
+                isCustom: t.isCustom,
+                createdAt: now,
+              });
+            }
+          }
+
+          // Seed default vulnerabilities
+          const existingVulns = await db.select({ id: vulnerabilities.id }).from(vulnerabilities).all();
+          if (existingVulns.length === 0) {
+            for (const v of defaultVulnerabilities) {
+              await db.insert(vulnerabilities).values({
+                id: crypto.randomUUID(),
+                vulnId: v.vulnId,
+                name: v.name,
+                description: v.description,
+                severity: v.severity,
+                isCustom: v.isCustom,
+                createdAt: now,
+              });
+            }
+          }
+
           dbUser = await db.select().from(users).where(eq(users.id, uid)).get();
         }
       }
